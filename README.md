@@ -48,7 +48,9 @@ Thanks to the combination of data in a single dataframe, the [Tableau workbook](
 
 ## Requirements
 
-Python 3.6+ is currently required to run NoteTab. Note: the notebook code itself can however run with _any version of Python_.
+Python 3.6+ is currently required to run the NoteTab server.
+
+The notebook code itself requires Python 3.6+ too (but it shouldn't be difficult to adapt NoteTab for Python 2).
 
 NoteTab relies on the official [Jupyter Kernel Gateway](https://github.com/jupyter/kernel_gateway).
 
