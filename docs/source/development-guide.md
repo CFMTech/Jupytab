@@ -30,12 +30,12 @@ $ conda activate notetab
 
 ### Run demo
 
-The command `make demo` registers the `notetab_demo` kernel and runs the examples:
+The command `make demo` registers the `notetab-demo` kernel and runs the examples:
 
 ```bask
 (notetab) $ make demo
-python -m ipykernel install --user --name notetab_demo
-Installed kernelspec notetab_demo in /home/user/.local/share/jupyter/kernels/notetab_demo
+python -m ipykernel install --user --name notetab-demo
+Installed kernelspec notetab_demo in /home/user/.local/share/jupyter/kernels/notetab-demo
 python -m notetab --config ./tests/data/config.ini
 Start notebook AirFlights.ipynb on 127.0.0.1:51455
 Start notebook RealEstateCrime.ipynb on 127.0.0.1:42963
