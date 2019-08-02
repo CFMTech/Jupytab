@@ -31,9 +31,9 @@ The full documentation is available on the
 # This call to setup() does all the work
 setup(
     name="notetab",
-    version="0.9.2",
+    version="0.9.4",
     description="Connect Tableau to your Jupyter Notebook",
-    # long_description_content_type="text/markdown",
+    long_description_content_type="text/markdown",
     long_description=README,
     url="https://github.com/CFMTech/NoteTab",
     author="Brian Tribondeau",
