@@ -219,9 +219,9 @@ NoteTab for diagnostic messages. The console output can in particular be usefull
 
 Contributions are very welcome.  It can be
 
-- code (see the [Developement Guide](docs/source/development-guide.md)),
-- a feature request,
 - a new GitHub issue,
+- a feature request,
+- code (see the [Developement Guide](docs/source/development-guide.md)),
 - or simply feedback on this project.
 
 The main author of NoteTab is Brian Tribondeau, who can be reached at brian.tribondeau@cfm.fr.
