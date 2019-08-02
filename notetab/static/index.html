@@ -1,0 +1,86 @@
+<!--
+Copyright (c) 2019 Capital Fund Management
+SPDX-License-Identifier: MIT
+-->
+
+<!DOCTYPE HTML>
+
+<html>
+<head>
+    <title>Notebook to Tableau connector</title>
+    <meta http-equiv="Cache-Control" content="no-store"/>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="vendor/bootstrap/bootstrap-4.2.1.min.css">
+
+    <script src="vendor/jquery/jquery-3.3.1.min.js" type="text/javascript"></script>
+    <script src="vendor/popper/popper-1.14.6.min.js" type="text/javascript"></script>
+    <script src="vendor/bootstrap/bootstrap-4.2.1.min.js" type="text/javascript"></script>
+    <script src="vendor/tableau/tableauwdc-2.3.latest.js" type="text/javascript"></script>
+    <script src="notebook.js" type="text/javascript"></script>
+
+    <link rel="icon" href="favicon.ico"/>
+</head>
+
+<body>
+
+<div class="jumbotron">
+    <h1 class="display-4">Notebook to Tableau connector</h1>
+    <p class="lead">Open this page in Tableau as a Web Data Connector to start exploring your data!</p>
+    <hr class="my-4">
+    <p>Please select your notebook:</p>
+
+
+    <div class="row">
+        <div class="col-4">
+            <div class="list-group" id="notebook-list"></div>
+        </div>
+        <div class="col-8">
+            <div class="card" id="notebook-card-info" style="visibility:hidden;">
+                <div class="card-body">
+                    <h5 class="card-title" id="notebook-info-title"></h5>
+                    <p class="card-text" id="notebook-info-description"></p>
+
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <th scope="col">Property</th>
+                            <th scope="col">Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">Status</th>
+                            <td id="notebook-info-status"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Hostname</th>
+                            <td id="notebook-info-hostname"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Port</th>
+                            <td id="notebook-info-port"></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">File</th>
+                            <td id="notebook-info-file"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <button type="button" id="submitButton" class="btn btn-primary" style="margin: 10px;">Explore in
+                        Tableau!
+                    </button>
+                    <button type="button" id="restartButton" class="btn btn-danger" style="margin: 10px;">Restart
+                        Kernel
+                    </button>
+                    <button type="button" id="schemaButton" class="btn btn-success" style="margin: 10px;">Schema
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

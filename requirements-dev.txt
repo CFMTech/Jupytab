@@ -1,0 +1,6 @@
+ipykernel
+pandas
+pytest
+flake8
+pytest-cov
+coverage
