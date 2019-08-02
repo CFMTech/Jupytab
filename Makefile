@@ -28,5 +28,5 @@ flake8:
 	flake8 .
 
 demo:
-	python -m ipykernel install --user --name notetab_demo
+	python -m ipykernel install --user --name notetab-demo
 	python -m notetab --config ./tests/data/config.ini
