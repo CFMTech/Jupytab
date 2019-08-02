@@ -1,7 +1,7 @@
 # NoteTab
 
 [![CircleCI](https://circleci.com/gh/btribonde/notetab/tree/master.svg?style=svg&circle-token=57d7230a595bd32e4b6696f96e684fc6b5d2b6b6)](https://circleci.com/gh/btribonde/notetab/tree/master)
-&nbsp;To be replaced -> [![PyPI version](https://badge.fury.io/py/notetab.svg)](https://badge.fury.io/py/notetab)
+&nbsp;[![PyPI version](https://badge.fury.io/py/notetab.svg)](https://badge.fury.io/py/notetab)
 &nbsp;[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 NoteTab allows you to **explore in [Tableau](https://www.tableau.com/) data which is generated dynamically by a Jupyter Notebook**. You can thus create Tableau data sources in a very flexible way using all the power of Python. This is achieved by having Tableau access data through a **web server created by NoteTab**.
