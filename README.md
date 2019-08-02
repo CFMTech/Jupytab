@@ -22,6 +22,14 @@ Features:
 You can find the example Jupyter notebooks and Tableau workbooks below are available in the [samples](samples) folder of
 the NoteTab project.
 
+### Preparation
+
+If you want to run the example notebooks, it is necessary to define the Jupyter kernel that they run with:
+```
+python -m ipykernel install --user --name notetab-demo
+```
+You can then launch the NoteTab server as instructed below.
+
 ### Air Flights
 
 The first example illustrates how NoteTab allows you to **directly display realtime data** in Tableau (without going through the hassle of creating intermediate files or database tables). 
