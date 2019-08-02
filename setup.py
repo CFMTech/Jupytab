@@ -8,21 +8,24 @@ from setuptools import setup, find_packages
 README = """
 
 NoteTab allows you to **explore in Tableau data which is generated
-dynamically by a Jupyter Notebook**. You can thus create Tableau data sources in a very flexible way
-using all the power of Python. This is achieved by having Tableau access data through a
-**web server created by NoteTab**.
+dynamically by a Jupyter Notebook**. You can thus create Tableau data
+sources in a very flexible way using all the power of Python.
+This is achieved by having Tableau access data through a **web
+server created by NoteTab**.
 
-NoteTab is built on **solid foundations**: Tableau's Web Data Connector and the Jupyter Kernel Gateway.
+NoteTab is built on **solid foundations**: Tableau's Web Data
+Connector and the Jupyter Kernel Gateway.
 
 Features:
 
-* **Expose multiple pandas dataframes** to Tableau from a Jupyter notebook
-* Access **several notebooks** from Tableau through a **single entry point** (web server)
+* **Expose multiple pandas dataframes** to Tableau from a Jupyter
+  notebook
+* Access **several notebooks** from Tableau through a **single
+  entry point** (web server)
 * Manage your notebooks using a **web interface**
 * **Secure access** to your data
 
-The full documentation is available on the
-project's home page.
+The full documentation is available on the project's home page.
 """
 
 # This call to setup() does all the work
