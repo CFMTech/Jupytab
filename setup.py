@@ -5,13 +5,6 @@ import os.path
 
 from setuptools import setup, find_packages
 
-# The directory containing this file
-HERE = os.path.abspath(os.path.dirname(__file__))
-
-# The text of the README file
-with open(os.path.join(HERE, "README.md"), encoding='utf-8') as fid:
-    README = fid.read()
-
 README = """# NoteTab
 
 NoteTab allows you to **explore in [Tableau](https://www.tableau.com/) data which is generated
@@ -43,7 +36,7 @@ setup(
     description="Connect Tableau to your Jupyter Notebook",
     long_description_content_type="text/markdown",
     long_description=README,
-    url="https://github.com/btribonde/notetab",
+    url="https://github.com/CFMTech/NoteTab",
     author="Brian Tribondeau",
     author_email="brian.tribondeau@cfm.fr",
     license="MIT",
