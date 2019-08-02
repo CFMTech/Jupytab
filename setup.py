@@ -7,15 +7,12 @@ from setuptools import setup, find_packages
 
 README = """
 
-NoteTab allows you to **explore in [Tableau](https://www.tableau.com/) data which is generated
+NoteTab allows you to **explore in Tableau data which is generated
 dynamically by a Jupyter Notebook**. You can thus create Tableau data sources in a very flexible way
 using all the power of Python. This is achieved by having Tableau access data through a
 **web server created by NoteTab**.
 
-NoteTab is built on **solid foundations**: Tableau's
-[Web Data Connector](https://tableau.github.io/webdataconnector/) and the
-[Jupyter Kernel Gateway](https://github.com/jupyter/kernel_gateway).
-
+NoteTab is built on **solid foundations**: Tableau's Web Data Connector and the Jupyter Kernel Gateway.
 
 Features:
 
@@ -25,13 +22,13 @@ Features:
 * **Secure access** to your data
 
 The full documentation is available on the
-[project's home page](https://github.com/CFMTech/notetab).
+project's home page.
 """
 
 # This call to setup() does all the work
 setup(
     name="notetab",
-    version="0.9.4",
+    version="0.9.4.1",
     description="Connect Tableau to your Jupyter Notebook",
     long_description_content_type="text/markdown",
     long_description=README,
