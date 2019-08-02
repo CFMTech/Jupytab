@@ -1,8 +1,6 @@
 # Copyright (c) Capital Fund Management
 # Distributed under the terms of the MIT License.
 
-import os.path
-
 from setuptools import setup, find_packages
 
 README = """
