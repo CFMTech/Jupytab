@@ -5,7 +5,7 @@ import os.path
 
 from setuptools import setup, find_packages
 
-README = """# NoteTab
+README = """
 
 NoteTab allows you to **explore in [Tableau](https://www.tableau.com/) data which is generated
 dynamically by a Jupyter Notebook**. You can thus create Tableau data sources in a very flexible way
@@ -16,7 +16,6 @@ NoteTab is built on **solid foundations**: Tableau's
 [Web Data Connector](https://tableau.github.io/webdataconnector/) and the
 [Jupyter Kernel Gateway](https://github.com/jupyter/kernel_gateway).
 
-## Overview
 
 Features:
 
@@ -34,7 +33,7 @@ setup(
     name="notetab",
     version="0.9.2",
     description="Connect Tableau to your Jupyter Notebook",
-    long_description_content_type="text/markdown",
+    # long_description_content_type="text/markdown",
     long_description=README,
     url="https://github.com/CFMTech/NoteTab",
     author="Brian Tribondeau",
