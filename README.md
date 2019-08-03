@@ -81,7 +81,7 @@ You need to create a `config.ini` file in order to tell NoteTab which notebooks 
 [main]
 listen_port = 8765
 security_token = myToken
-notebooks = AirFlights|SacramentoCrimes
+notebooks = AirFlights|RealEstateCrime
 
 [AirFlights]
 name = Air Flights
