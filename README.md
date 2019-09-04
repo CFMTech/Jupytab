@@ -1,6 +1,6 @@
 # NoteTab
 
-[![CircleCI](https://circleci.com/gh/CFMTech/NoteTab.svg?style=svg)](https://circleci.com/gh/CFMTech/NoteTab)
+[![CircleCI](https://circleci.com/gh/CFMTech/Jupytab.svg?style=svg)](https://circleci.com/gh/CFMTech/Jupytab)
 &nbsp;[![PyPI version](https://badge.fury.io/py/notetab.svg)](https://badge.fury.io/py/notetab)
 &nbsp;[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
