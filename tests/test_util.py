@@ -5,7 +5,7 @@ import os
 
 import pandas as pd
 
-from notetab import Tables, DataFrameTable
+from jupytab import Tables, DataFrameTable
 
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 RESOURCES = os.path.join(THIS_DIR, '../samples/real-estate_crime')

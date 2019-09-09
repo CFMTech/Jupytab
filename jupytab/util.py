@@ -7,7 +7,7 @@ import json
 class BaseTable:
     """
     Abstract class with default methods to be implemented, that represents a table-like object that
-    can be used by NoteTab. DataFrames, SQL queries, CSV files... could be implemented as BaseTable
+    can be used by Jupytab. DataFrames, SQL queries, CSV files... could be implemented as BaseTable
     child classes.
     """
 
@@ -26,7 +26,7 @@ class BaseTable:
 
     def get_schema(self, key):
         """
-        Provide a table schema for NoteTab.
+        Provide a table schema for Jupytab.
 
         Returns a dictionary that describes the table provided by the schema:
         {
@@ -56,7 +56,7 @@ class BaseTable:
 
 class DataFrameTable(BaseTable):
     """
-    This class represents a notetab-ready table that exposes a Pandas DataFrame.
+    This class represents a jupytab-ready table that exposes a Pandas DataFrame.
     """
 
     def __init__(self, alias, dataframe=None, refresh_method=None):
@@ -145,7 +145,7 @@ class Tables:
         tables.render_schema()
         ```
 
-        This will generate a string in the cell output that NoteTab will be able to use.
+        This will generate a string in the cell output that Jupytab will be able to use.
 
         do_print -- If true, do not return the JSON object but print it instead.
         """
@@ -166,7 +166,7 @@ class Tables:
         tables.render_data()
         ```
 
-        This will generate a string in the cell output that NoteTab will be able to use.
+        This will generate a string in the cell output that Jupytab will be able to use.
 
         do_print -- If true, do not return the JSON object but print it instead.
         """
