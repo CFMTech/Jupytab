@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/circleci-notetab-python-conda
+    working_directory: ~/circleci-jupytab-python-conda
     docker:
       - image: continuumio/miniconda3
         environment:
@@ -9,15 +9,15 @@ jobs:
     steps:
       - checkout  # checkout source code to working directory
       - run:
-          name: Install conda notetab environment
+          name: Install conda jupytab environment
           command: |
-            conda create -y -n notetab-conda python=3 make
+            conda create -y -n jupytab-conda python=3 make
             conda init bash
       - run:
           name: Install required dependencies and run tests
           no_output_timeout: 3m
           command: |
-            conda activate notetab-conda
+            conda activate jupytab-conda
             make conda-develop
             make samples-kernel
             make test
@@ -25,7 +25,7 @@ jobs:
           name: Static Analysis
           no_output_timeout: 3m
           command: |
-            conda activate notetab-conda
+            conda activate jupytab-conda
             make flake8
       - store_test_results:
           path: _build/tests
