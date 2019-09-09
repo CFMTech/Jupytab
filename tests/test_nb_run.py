@@ -7,7 +7,7 @@ import pytest
 import requests
 from tornado.ioloop import IOLoop
 
-from notetab.__main__ import parse_config, create_server_app
+from jupytab.__main__ import parse_config, create_server_app
 
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 RESOURCES = os.path.abspath(os.path.join(THIS_DIR, '..'))
@@ -20,7 +20,7 @@ SECURITY_TOKEN = "02014868fe0eef123269397c5bc65a9608b3cedb73e3b84d8d02c220"
 event_loop_instance = None
 
 
-def run_notetab():
+def run_jupytab():
     # Required as we run the server in a new thread
     asyncio.set_event_loop(asyncio.new_event_loop())
     os.chdir(os.path.abspath(RESOURCES))
@@ -36,9 +36,9 @@ def run_notetab():
 
 
 @pytest.fixture(scope='session', autouse=True)
-def setup_notetab():
+def setup_jupytab():
     # Setup
-    thread = threading.Thread(target=run_notetab)
+    thread = threading.Thread(target=run_jupytab)
     thread.daemon = True
     thread.start()
 

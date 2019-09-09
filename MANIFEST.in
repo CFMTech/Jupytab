@@ -1,1 +1,1 @@
-recursive-include notetab/static *
+recursive-include jupytab/static *

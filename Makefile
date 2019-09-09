@@ -19,7 +19,7 @@ conda-develop:
 	python setup.py develop --no-deps
 
 samples-kernel:
-	ipython kernel install --name notetab-demo --user
+	ipython kernel install --name jupytab-demo --user
 
 test:
 	pytest ./tests --junitxml=_build/tests/results.xml
@@ -28,5 +28,5 @@ flake8:
 	flake8 .
 
 demo:
-	python -m ipykernel install --user --name notetab-demo
-	python -m notetab --config ./tests/data/config.ini
+	python -m ipykernel install --user --name jupytab-demo
+	python -m jupytab --config ./tests/data/config.ini
