@@ -40,7 +40,7 @@ class KernelExecutor:
 
     def start(self):
         my_env = dict(os.environ)
-        my_env['PATH'] = os.path.dirname(sys.executable) + ':$PATH'
+        my_env['PATH'] = os.path.dirname(sys.executable) + os.pathsep + os.environ.get('PATH')
 
         self.__port = KernelExecutor.get_free_tcp_port()
 
