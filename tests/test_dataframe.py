@@ -40,7 +40,19 @@ def test_data_schema():
     assert schema[1]['id'] == 'complex_df_with_index_{}[]#!'
     assert schema[1]['alias'] == 'A multi-index Dataframe ({}[]#!)'
 
-    raw_output = '[{"id": "complex_df_no_index_{}[]#!", "alias": "A multi-index Dataframe ({}[]#!)", "columns": [{"id": "A_A_1", "dataType": "float"}, {"id": "A_A_2", "dataType": "float"}, {"id": "a_0", "dataType": "float"}, {"id": "a_1", "dataType": "float"}, {"id": "0_z____aeca_", "dataType": "float"}, {"id": "0_z_ea_a", "dataType": "float"}, {"id": "a___az_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", "dataType": "float"}, {"id": "a___az_abcdefghijklmnopqrstuvwxyz0123456789", "dataType": "float"}]}, {"id": "complex_df_with_index_{}[]#!", "alias": "A multi-index Dataframe ({}[]#!)", "columns": [{"id": "A_A_1", "dataType": "float"}, {"id": "A_A_2", "dataType": "float"}, {"id": "a_0", "dataType": "float"}, {"id": "a_1", "dataType": "float"}, {"id": "0_z____aeca_", "dataType": "float"}, {"id": "0_z_ea_a", "dataType": "float"}, {"id": "a___az_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", "dataType": "float"}, {"id": "a___az_abcdefghijklmnopqrstuvwxyz0123456789", "dataType": "float"}]}]' #noqa
+    raw_output = '[{"id": "complex_df_no_index_{}[]#!", "alias": "A multi-index Dataframe ({}[]#!' \
+                 ')", "columns": [{"id": "A_A_1", "dataType": "float"}, {"id": "A_A_2", "dataType' \
+                 '": "float"}, {"id": "a_0", "dataType": "float"}, {"id": "a_1", "dataType": "flo' \
+                 'at"}, {"id": "0_z____aeca_", "dataType": "float"}, {"id": "0_z_ea_a", "dataType' \
+                 '": "float"}, {"id": "a___az_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", "dataType": ' \
+                 '"float"}, {"id": "a___az_abcdefghijklmnopqrstuvwxyz0123456789", "dataType": "fl' \
+                 'oat"}]}, {"id": "complex_df_with_index_{}[]#!", "alias": "A multi-index Datafra' \
+                 'me ({}[]#!)", "columns": [{"id": "A_A_1", "dataType": "float"}, {"id": "A_A_2",' \
+                 ' "dataType": "float"}, {"id": "a_0", "dataType": "float"}, {"id": "a_1", "dataT' \
+                 'ype": "float"}, {"id": "0_z____aeca_", "dataType": "float"}, {"id": "0_z_ea_a",' \
+                 ' "dataType": "float"}, {"id": "a___az_ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", "d' \
+                 'ataType": "float"}, {"id": "a___az_abcdefghijklmnopqrstuvwxyz0123456789", "data' \
+                 'Type": "float"}]}]'
 
     raw_schema = tables.render_schema(do_print=False)
 
