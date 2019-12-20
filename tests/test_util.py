@@ -41,3 +41,12 @@ dataType": "int"}, {"id": "latitude", "dataType": "float"}, {"id": "longitude", 
 }]}]'
 
     assert raw_output == tables.render_schema(do_print=False)
+
+
+def test_clean_column_name():
+    assert DataFrameTable.clean_column_name(['abéçpo$ù"', 0, 'AaZz_#"\\']) == "_abecpo_u_0_AaZz__"
+
+
+def test_replace_duplicated_column_name():
+    assert DataFrameTable.replace_duplicated_column_name(['A', 'A', 'a', 'z', 'a', 'Y']) \
+           == ['A_1', 'A_2', 'a_1', 'z', 'a_2', 'Y']
