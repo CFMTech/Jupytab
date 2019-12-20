@@ -1,4 +1,13 @@
-version: 2
+version: 2.1
+
+workflows:
+  main:
+    jobs:
+      - build:
+          python_version: 3.6
+      - build:
+          python_version: 3.7
+
 jobs:
   build:
     working_directory: ~/circleci-jupytab-python-conda
