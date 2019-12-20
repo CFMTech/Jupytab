@@ -7,6 +7,8 @@ workflows:
           python_version: '3.6'
       - build:
           python_version: '3.7'
+       - build:
+          python_version: '3.8'
 
 jobs:
   build:
