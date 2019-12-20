@@ -10,6 +10,9 @@ workflows:
 
 jobs:
   build:
+    parameters:
+      python_version:
+        type: string
     working_directory: ~/circleci-jupytab-python-conda
     docker:
       - image: continuumio/miniconda3
@@ -20,7 +23,7 @@ jobs:
       - run:
           name: Install conda jupytab environment
           command: |
-            conda create -y -n jupytab-conda python=3 make
+            conda create -y -n jupytab-conda python=<< parameters.python_version >> make
             conda init bash
       - run:
           name: Install required dependencies and run tests
