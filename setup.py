@@ -29,7 +29,7 @@ The full documentation is available on the project's home page.
 # This call to setup() does all the work
 setup(
     name="jupytab",
-    version="0.9.0",
+    version="0.9.1",
     description="Connect Tableau to your Jupyter Notebook",
     long_description_content_type="text/markdown",
     long_description=README,
