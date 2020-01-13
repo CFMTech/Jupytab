@@ -21,7 +21,7 @@ function display_notebook_info(kernel_info) {
 
 function load_notebook_list(token) {
     $.getJSON({
-        url: "../api?" + token
+        url: "./api?" + token
     }).done(function (data) {
         $('#notebook-list').empty();
         Object.keys(data).forEach(function (key) {
@@ -54,7 +54,7 @@ function explore_in_tableau(active_kernel_id, token) {
 function define_button_handler(active_kernel_id, token) {
     $('#restartButton').off('click').click(function () {
         $.getJSON({
-            url: "../api/restart/" + active_kernel_id + "?" + token
+            url: "./api/restart/" + active_kernel_id + "?" + token
         }).done(function () {
             load_notebook_list(token);
             $('#notebook-card-info').css("visibility", "hidden");
@@ -65,7 +65,7 @@ function define_button_handler(active_kernel_id, token) {
     });
 
     $('#schemaButton').off('click').click(function () {
-        window.location.href = "../kernel/" + active_kernel_id + "/schema?" + token
+        window.location.href = "./kernel/" + active_kernel_id + "/schema?" + token
     });
 }
 
@@ -81,7 +81,7 @@ $(function () {
     myConnector.getSchema = function (schemaCallback) {
         var tableObj = JSON.parse(tableau.connectionData)
 
-        $.getJSON("../kernel/" + tableObj.active_kernel_id + "/schema?" + tableObj.token, function (resp) {
+        $.getJSON("./kernel/" + tableObj.active_kernel_id + "/schema?" + tableObj.token, function (resp) {
             schemaCallback(resp);
         });
     };
@@ -90,7 +90,7 @@ $(function () {
     myConnector.getData = function (table, doneCallback) {
         var tableObj = JSON.parse(tableau.connectionData)
 
-        $.getJSON("../kernel/" + tableObj.active_kernel_id + "/data?table_name=" + table.tableInfo.id + "&" + tableObj.token, function (resp) {
+        $.getJSON("./kernel/" + tableObj.active_kernel_id + "/data?table_name=" + table.tableInfo.id + "&" + tableObj.token, function (resp) {
             tableData = [];
             for (var i = 0; i < resp.length; i++) {
                 row = {}
