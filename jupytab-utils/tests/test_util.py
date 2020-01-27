@@ -4,7 +4,7 @@
 import os
 
 import pandas as pd
-import jupytab_utils as jtu
+import jupytab_utils as jupytab
 
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 RESOURCES = os.path.join(THIS_DIR, 'resources')
@@ -14,11 +14,11 @@ def test_data_schema():
     crime_df = pd.read_csv(os.path.join(RESOURCES, 'sacramento_crime.csv'))
     realestate_df = pd.read_csv(os.path.join(RESOURCES, 'sacramento_realestate.csv'))
 
-    tables = jtu.Tables()
+    tables = jupytab.Tables()
     tables['sacramento_crime'] = \
-        jtu.DataFrameTable('Sacramento Crime', dataframe=crime_df)
+        jupytab.DataFrameTable('Sacramento Crime', dataframe=crime_df)
     tables['sacramento_realestate'] = \
-        jtu.DataFrameTable('Sacramento RealEstate', dataframe=realestate_df)
+        jupytab.DataFrameTable('Sacramento RealEstate', dataframe=realestate_df)
 
     schema = tables.schema()
 
@@ -43,9 +43,10 @@ dataType": "int"}, {"id": "latitude", "dataType": "float"}, {"id": "longitude", 
 
 
 def test_clean_column_name():
-    assert jtu.DataFrameTable.clean_column_name(['abéçpo$ù"', 0, 'AaZz_#"\\']) == "_abecpo_u_0_AaZz__"
+    assert jupytab.DataFrameTable\
+               .clean_column_name(['abéçpo$ù"', 0, 'AaZz_#"\\']) == "_abecpo_u_0_AaZz__"
 
 
 def test_replace_duplicated_column_name():
-    assert jtu.DataFrameTable.replace_duplicated_column_name(['A', 'A', 'a', 'z', 'a', 'Y']) \
+    assert jupytab.DataFrameTable.replace_duplicated_column_name(['A', 'A', 'a', 'z', 'a', 'Y']) \
            == ['A_1', 'A_2', 'a_1', 'z', 'a_2', 'Y']

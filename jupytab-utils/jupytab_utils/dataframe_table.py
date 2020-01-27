@@ -5,6 +5,7 @@ from collections import Counter
 
 from .table import BaseTable
 
+
 class DataFrameTable(BaseTable):
     """
     This class represents a jupytab-ready table that exposes a Pandas DataFrame.

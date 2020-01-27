@@ -3,6 +3,7 @@
 
 import json
 
+
 class BaseTable:
     """
     Abstract class with default methods to be implemented, that represents a table-like object that
