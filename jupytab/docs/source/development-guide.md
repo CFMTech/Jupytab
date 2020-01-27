@@ -6,17 +6,8 @@ Install environment
 -------------------
 
 - `jupytab` is provided with a Makefile so as to ease environment setup.
--  Both `pip ` and `conda` environments are supported.
+- `conda` environments are supported for development
 
-### Setup with pip
-
-From the [jupytab package folder](../../jupytab):
-
-```bash
-$ virtualenv ~/envs/jupytab
-$ source ~/envs/jupytab/activate
-(jupytab) $ make develop
-```
 
 ### Setup with conda
 

@@ -4,7 +4,7 @@
 import numpy as np
 import pandas as pd
 
-from jupytab import Tables, DataFrameTable
+import jupytab_utils as jtu
 
 
 def test_data_schema():
@@ -24,12 +24,12 @@ def test_data_schema():
     index = pd.MultiIndex.from_tuples(tuples, names=['first', 'second'])
     complex_df = pd.DataFrame(np.random.randn(len(index), len(index)), index=index, columns=index)
 
-    tables = Tables()
+    tables = jtu.Tables()
     tables['complex_df_no_index_{}[]#!'] = \
-        DataFrameTable('A multi-index Dataframe ({}[]#!)',
+        jtu.DataFrameTable('A multi-index Dataframe ({}[]#!)',
                        dataframe=complex_df)
     tables['complex_df_with_index_{}[]#!'] = \
-        DataFrameTable('A multi-index Dataframe ({}[]#!)',
+        jtu.DataFrameTable('A multi-index Dataframe ({}[]#!)',
                        dataframe=complex_df,
                        include_index=True)
 

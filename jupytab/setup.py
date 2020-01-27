@@ -1,7 +1,11 @@
 # Copyright (c) Capital Fund Management
 # Distributed under the terms of the MIT License.
 
+import os
 from setuptools import setup, find_packages
+
+with open(os.path.join(os.path.dirname(__file__), '..', 'VERSION')) as version_file:
+    VERSION = version_file.read().strip()
 
 README = """
 
@@ -29,7 +33,7 @@ The full documentation is available on the project's home page.
 # This call to setup() does all the work
 setup(
     name="jupytab",
-    version="0.9.1",
+    version=VERSION,
     description="Connect Tableau to your Jupyter Notebook",
     long_description_content_type="text/markdown",
     long_description=README,
@@ -53,7 +57,7 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "jupytab=jupytab.__main__:main",
+            "jupytab=jupytab.jupytab:main",
         ]
     },
 )

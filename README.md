@@ -70,6 +70,11 @@ Jupytab and its dependencies can easily be installed through pip:
 pip install jupytab
 ```
 
+For notebook kernels, you must install the jupytab-utils library that only have a dependency on Pandas.
+
+```
+pip install jupytab-utils
+```
 
 # Usage 
 
@@ -122,7 +127,7 @@ Publishing dataframes from a notebook is simple. Let's start by importing the ne
 ```python
 import pandas as pd
 
-import jupytab
+import jupytab_utils as jupytab
 ```
 
 ### Tables definition

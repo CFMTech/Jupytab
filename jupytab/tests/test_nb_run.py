@@ -2,12 +2,13 @@ import asyncio
 import os
 import threading
 import time
+from json.decoder import JSONDecodeError
 
 import pytest
 import requests
 from tornado.ioloop import IOLoop
 
-from jupytab.__main__ import parse_config, create_server_app
+from jupytab.jupytab import parse_config, create_server_app
 
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 RESOURCES = os.path.abspath(os.path.join(THIS_DIR, '..'))
@@ -60,9 +61,11 @@ def retry(uri, delay_seconds=5, attempt_count=6):
         try:
             response = requests.get(uri)
             if response.status_code == 200:
-                return response
+                return response.json()
         except requests.exceptions.RequestException as e:
-            print(e)
+            print("RequestException", e)
+        except JSONDecodeError as e:
+            print("JSONDecodeError", e)
 
         time.sleep(delay_seconds)
 
@@ -72,7 +75,7 @@ def retry(uri, delay_seconds=5, attempt_count=6):
 def test_airflights_schema():
     response = retry(build_uri("kernel/AirFlights/schema"))
 
-    json_result = response.json()
+    json_result = response
 
     assert json_result[0]['id'] == 'flights'
     assert json_result[0]['columns'][0]['id'] == "callsign"
@@ -85,7 +88,7 @@ def test_airflights_schema():
 def test_airflights_data():
     response = retry(build_uri("kernel/AirFlights/data", "table_name=flights"))
 
-    json_result = response.json()
+    json_result = response
 
     assert len(json_result) > 0
     assert 'callsign' in json_result[0]
@@ -96,7 +99,7 @@ def test_airflights_data():
 def test_realestatecrime_data():
     response = retry(build_uri("kernel/RealEstateCrime/data", "table_name=combined"))
 
-    json_result = response.json()
+    json_result = response
 
     assert len(json_result) > 0
     assert 'address' in json_result[0]
@@ -107,7 +110,7 @@ def test_realestatecrime_data():
 def test_realestatecrime_schema():
     response = retry(build_uri("kernel/RealEstateCrime/schema"))
 
-    json_result = response.json()
+    json_result = response
 
     assert json_result[0]['id'] == 'crime'
     assert len(json_result[0]['columns']) == 9
