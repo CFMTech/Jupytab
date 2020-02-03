@@ -8,7 +8,7 @@ import pytest
 import requests
 from tornado.ioloop import IOLoop
 
-from jupytab.jupytab import parse_config, create_server_app
+from jupytab_server.jupytab import parse_config, create_server_app
 
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 RESOURCES = os.path.abspath(os.path.join(THIS_DIR, '..'))
