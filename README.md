@@ -64,16 +64,16 @@ Jupytab relies on the official [Jupyter Kernel Gateway](https://github.com/jupyt
 
 ## Automatic installation
 
-Jupytab and its dependencies can easily be installed through pip:
+Jupytab server and its dependencies can easily be installed through pip:
+
+```
+pip install jupytab-server
+```
+
+For notebook kernels, you must install the jupytab library that only have a dependency on Pandas.
 
 ```
 pip install jupytab
-```
-
-For notebook kernels, you must install the jupytab-utils library that only have a dependency on Pandas.
-
-```
-pip install jupytab-utils
 ```
 
 # Usage 
@@ -127,7 +127,7 @@ Publishing dataframes from a notebook is simple. Let's start by importing the ne
 ```python
 import pandas as pd
 
-import jupytab_utils as jupytab
+import jupytab
 ```
 
 ### Tables definition
