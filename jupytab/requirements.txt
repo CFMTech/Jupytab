@@ -1,1 +1,1 @@
-jupyter_kernel_gateway>=2,<3
+pandas<1

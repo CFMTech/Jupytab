@@ -4,7 +4,7 @@
 import numpy as np
 import pandas as pd
 
-import jupytab_utils as jupytab
+import jupytab
 
 
 def test_data_schema():

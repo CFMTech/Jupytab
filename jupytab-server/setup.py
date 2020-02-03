@@ -9,23 +9,32 @@ with open(os.path.join(os.path.dirname(__file__), '..', 'VERSION')) as version_f
 
 README = """
 
-Jupytab allows you to **explore in Tableau data which is generated
+Jupytab Server allows you to **explore in Tableau data which is generated
 dynamically by a Jupyter Notebook**. You can thus create Tableau data
 sources in a very flexible way using all the power of Python.
 This is achieved by having Tableau access data through a **web
 server created by Jupytab**.
 
-This package is an helper package to split dependencies between
-Jupytab and your notebook. It only requires pandas.
+Jupytab Server is built on **solid foundations**: Tableau's Web Data
+Connector and the Jupyter Kernel Gateway.
+
+Features:
+
+* **Expose multiple pandas dataframes** to Tableau from a Jupyter
+  notebook
+* Access **several notebooks** from Tableau through a **single
+  entry point** (web server)
+* Manage your notebooks using a **web interface**
+* **Secure access** to your data
 
 The full documentation is available on the project's home page.
 """
 
 # This call to setup() does all the work
 setup(
-    name="jupytab-utils",
+    name="jupytab-server",
     version=VERSION,
-    description="Helper package for Jupytab to be used in notebooks",
+    description="Connect Tableau to your Jupyter Notebook",
     long_description_content_type="text/markdown",
     long_description=README,
     url="https://github.com/CFMTech/Jupytab",
@@ -40,10 +49,15 @@ setup(
     ],
     packages=find_packages(exclude=["*.tests", "*.tests.*"]),
     include_package_data=True,
-    install_requires=["pandas"],
+    install_requires=["jupyter_kernel_gateway"],
     project_urls={
         "Bug Tracker": "https://github.com/CFMTech/Jupytab/issues",
         "Documentation": "https://github.com/CFMTech/Jupytab",
         "Source Code": "https://github.com/CFMTech/Jupytab"
-    }
+    },
+    entry_points={
+        "console_scripts": [
+            "jupytab=jupytab.jupytab:main",
+        ]
+    },
 )

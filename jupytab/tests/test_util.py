@@ -4,7 +4,7 @@
 import os
 
 import pandas as pd
-import jupytab_utils as jupytab
+import jupytab
 
 THIS_DIR = os.path.abspath(os.path.dirname(__file__))
 RESOURCES = os.path.join(THIS_DIR, 'resources')
