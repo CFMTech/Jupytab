@@ -36,20 +36,20 @@ The first example illustrates how Jupytab allows you to **directly display realt
 We will display the position and altitude of all planes from the freely available [OpenSky](https://opensky-network.org/) service. (_This service does not show planes currently flying over the 
 ocean or uninhabited area!_)
 
-The [AirFlights notebook](samples/air-flights/AirFlights.ipynb) uses the [Requests](https://2.python-requests.org/en/master/) library to **access the OpenSky HTTP Rest API** and then exposes multiple metrics in a dataframe.
-The provided [Tableau workbook](samples/air-flights/AirFlights.twb) gives the result below:
+The [AirFlights notebook](jupytab/samples/air-flights/AirFlights.ipynb) uses the [Requests](https://2.python-requests.org/en/master/) library to **access the OpenSky HTTP Rest API** and then exposes multiple metrics in a dataframe.
+The provided [Tableau workbook](jupytab/samples/air-flights/AirFlights.twb) gives the result below:
 
-![AirFlights](docs/resources/AirFlights.png)
+![AirFlights](jupytab-server/docs/resources/AirFlights.png)
 
 ### Real Estate Price, and Crime 
 
 The second example illustrates how simple it is to use Jupytab and **create a custom data source from multiple CSV files**. This is particularly convenient, because there is **no need to configure a new storage area** for these files in Tableau: the data is accessed through Jupytab's web service.
 
-The [example notebook](samples/real-estate_crime/RealEstateCrime.ipynb) exposes real estate and crime data for Sacramento, with a bit of [Pandas](http://pandas.pydata.org/) magic to combine several data sources. 
+The [example notebook](jupytab/samples/real-estate_crime/RealEstateCrime.ipynb) exposes real estate and crime data for Sacramento, with a bit of [Pandas](http://pandas.pydata.org/) magic to combine several data sources. 
 
-Thanks to the combination of data in a single dataframe, the [Tableau workbook](samples/air-flights/AirFlights.twb) can automatically show **maps over the same area of the city**:
+Thanks to the combination of data in a single dataframe, the [Tableau workbook](jupytab/samples/air-flights/AirFlights.twb) can automatically show **maps over the same area of the city**:
 
-![RealEstateCrime](docs/resources/RealEstateCrime.png)
+![RealEstateCrime](jupytab-server/docs/resources/RealEstateCrime.png)
 
 
 # Installation
@@ -64,12 +64,17 @@ Jupytab relies on the official [Jupyter Kernel Gateway](https://github.com/jupyt
 
 ## Automatic installation
 
-Jupytab and its dependencies can easily be installed through pip:
+Jupytab server and its dependencies can easily be installed through pip:
+
+```
+pip install jupytab-server
+```
+
+For notebook kernels, you must install the jupytab library that only have a dependency on Pandas.
 
 ```
 pip install jupytab
 ```
-
 
 # Usage 
 
@@ -113,7 +118,7 @@ Additional sections contain information about each notebook to be run:
 
 Please make sure that the notebook name in the main section is exactly the same as in the section title!
 
-![ConfigSection](docs/resources/ConfigSection.png)
+![ConfigSection](jupytab-server/docs/resources/ConfigSection.png)
 
 ## Notebook preparation
 
@@ -205,7 +210,7 @@ INFO:[KernelGatewayApp] Jupyter Kernel Gateway at http://127.0.0.1:57149
 
 Connecting Tableau to your notebooks is simply done by copying the URL provided by Jupytab upon startup to the Tableau Web Data Connector:
 
-![TableauStart](docs/resources/TableauStart.png)
+![TableauStart](jupytab-server/docs/resources/TableauStart.png)
 
 You can now use the Tableau Web Data Connector screen and access your data sources through the Jupytab interface.
 
@@ -221,7 +226,7 @@ Contributions are very welcome.  It can be
 
 - a new GitHub issue,
 - a feature request,
-- code (see the [Developement Guide](docs/source/development-guide.md)),
+- code (see the [Developement Guide](jupytab/docs/source/development-guide.md)),
 - or simply feedback on this project.
 
 The main author of Jupytab is Brian Tribondeau, who can be reached at brian.tribondeau@cfm.fr.

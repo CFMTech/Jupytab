@@ -1,31 +1,51 @@
-.PHONY: clean clean_py test develop conda-develop flake8 demo
+.PHONY: clean clean_pyc test develop conda-develop flake8 demo
 
 BUILD=_build
 
 clean:
-	python setup.py clean
+	python jupytab-server/setup.py clean
+	python jupytab/setup.py clean
 
 clean_pyc:
-	find . -name *.py -exec rm {}\;
+	find . -name '*.pyc' -deletemake test
 
-develop:
-	pip install -r requirements-dev.txt
-	pip install -r requirements.txt
-	pip install -e . --no-deps
+conda-develop_jupytab-server:
+	conda install -y --file jupytab-server/requirements-dev.txt
+	conda install -y --file jupytab-server/requirements.txt
+	(cd jupytab-server && python setup.py develop --no-deps)
+
+conda-develop_jupytab:
+	conda install -y --file jupytab/requirements-dev.txt
+	conda install -y --file jupytab/requirements.txt
+	(cd jupytab && python setup.py develop --no-deps)
 
 conda-develop:
-	conda install -y --file requirements-dev.txt
-	conda install -y --file requirements.txt
-	python setup.py develop --no-deps
+	$(MAKE) conda-develop_jupytab
+	$(MAKE) conda-develop_jupytab-server
 
 samples-kernel:
 	ipython kernel install --name jupytab-demo --user
 
+test_jupytab-server:
+	pytest ./jupytab-server/tests --junitxml=_build/tests/results.xml
+
+test_jupytab:
+	pytest ./jupytab/tests --junitxml=_build/tests/results.xml
+
 test:
-	pytest ./tests --junitxml=_build/tests/results.xml
+	$(MAKE) test_jupytab
+	python -m ipykernel install --user --name jupytab-demo
+	$(MAKE) test_jupytab-server
+
+flake8_jupytab-server:
+	flake8 ./jupytab-server
+
+flake8_jupytab:
+	flake8 ./jupytab
 
 flake8:
-	flake8 .
+	$(MAKE) flake8_jupytab
+	$(MAKE) flake8_jupytab-server
 
 demo:
 	python -m ipykernel install --user --name jupytab-demo
