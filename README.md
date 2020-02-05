@@ -39,7 +39,7 @@ ocean or uninhabited area!_)
 The [AirFlights notebook](jupytab/samples/air-flights/AirFlights.ipynb) uses the [Requests](https://2.python-requests.org/en/master/) library to **access the OpenSky HTTP Rest API** and then exposes multiple metrics in a dataframe.
 The provided [Tableau workbook](jupytab/samples/air-flights/AirFlights.twb) gives the result below:
 
-![AirFlights](jupytab/docs/resources/AirFlights.png)
+![AirFlights](jupytab-server/docs/resources/AirFlights.png)
 
 ### Real Estate Price, and Crime 
 
@@ -49,7 +49,7 @@ The [example notebook](jupytab/samples/real-estate_crime/RealEstateCrime.ipynb) 
 
 Thanks to the combination of data in a single dataframe, the [Tableau workbook](jupytab/samples/air-flights/AirFlights.twb) can automatically show **maps over the same area of the city**:
 
-![RealEstateCrime](jupytab/docs/resources/RealEstateCrime.png)
+![RealEstateCrime](jupytab-server/docs/resources/RealEstateCrime.png)
 
 
 # Installation
@@ -118,7 +118,7 @@ Additional sections contain information about each notebook to be run:
 
 Please make sure that the notebook name in the main section is exactly the same as in the section title!
 
-![ConfigSection](jupytab/docs/resources/ConfigSection.png)
+![ConfigSection](jupytab-server/docs/resources/ConfigSection.png)
 
 ## Notebook preparation
 
@@ -210,7 +210,7 @@ INFO:[KernelGatewayApp] Jupyter Kernel Gateway at http://127.0.0.1:57149
 
 Connecting Tableau to your notebooks is simply done by copying the URL provided by Jupytab upon startup to the Tableau Web Data Connector:
 
-![TableauStart](jupytab/docs/resources/TableauStart.png)
+![TableauStart](jupytab-server/docs/resources/TableauStart.png)
 
 You can now use the Tableau Web Data Connector screen and access your data sources through the Jupytab interface.
 
