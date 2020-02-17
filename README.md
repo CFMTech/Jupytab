@@ -64,6 +64,8 @@ Jupytab relies on the official [Jupyter Kernel Gateway](https://github.com/jupyt
 
 ## Automatic installation
 
+The jupytab server and its notebook library must both be installed.
+
 Jupytab server and its dependencies can easily be installed through pip:
 
 ```
