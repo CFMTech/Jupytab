@@ -4,6 +4,8 @@ workflows:
   main:
     jobs:
       - build:
+          python_version: '3.5'
+      - build:
           python_version: '3.6'
       - build:
           python_version: '3.7'
