@@ -58,7 +58,7 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "jupytab=jupytab.jupytab:main",
+            "jupytab=jupytab_server.jupytab:main",
         ]
     },
 )
