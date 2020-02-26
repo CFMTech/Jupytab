@@ -8,6 +8,8 @@ Jupytab allows you to **explore in [Tableau](https://www.tableau.com/) data whic
 
 Jupytab is built on **solid foundations**: Tableau's [Web Data Connector](https://tableau.github.io/webdataconnector/) and the [Jupyter Kernel Gateway](https://github.com/jupyter/kernel_gateway).
 
+![Jupytab Logo](jupytab-medium.png)
+
 ## Overview
 
 Features:
