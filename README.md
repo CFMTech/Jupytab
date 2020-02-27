@@ -38,8 +38,8 @@ The first example illustrates how Jupytab allows you to **directly display realt
 We will display the position and altitude of all planes from the freely available [OpenSky](https://opensky-network.org/) service. (_This service does not show planes currently flying over the 
 ocean or uninhabited area!_)
 
-The [AirFlights notebook](jupytab/samples/air-flights/AirFlights.ipynb) uses the [Requests](https://2.python-requests.org/en/master/) library to **access the OpenSky HTTP Rest API** and then exposes multiple metrics in a dataframe.
-The provided [Tableau workbook](jupytab/samples/air-flights/AirFlights.twb) gives the result below:
+The [AirFlights notebook](jupytab-server/samples/air-flights/AirFlights.ipynb) uses the [Requests](https://2.python-requests.org/en/master/) library to **access the OpenSky HTTP Rest API** and then exposes multiple metrics in a dataframe.
+The provided [Tableau workbook](jupytab-server/samples/air-flights/AirFlights.twb) gives the result below:
 
 ![AirFlights](jupytab-server/docs/resources/AirFlights.png)
 
@@ -47,9 +47,9 @@ The provided [Tableau workbook](jupytab/samples/air-flights/AirFlights.twb) give
 
 The second example illustrates how simple it is to use Jupytab and **create a custom data source from multiple CSV files**. This is particularly convenient, because there is **no need to configure a new storage area** for these files in Tableau: the data is accessed through Jupytab's web service.
 
-The [example notebook](jupytab/samples/real-estate_crime/RealEstateCrime.ipynb) exposes real estate and crime data for Sacramento, with a bit of [Pandas](http://pandas.pydata.org/) magic to combine several data sources. 
+The [example notebook](jupytab-server/samples/real-estate_crime/RealEstateCrime.ipynb) exposes real estate and crime data for Sacramento, with a bit of [Pandas](http://pandas.pydata.org/) magic to combine several data sources. 
 
-Thanks to the combination of data in a single dataframe, the [Tableau workbook](jupytab/samples/air-flights/AirFlights.twb) can automatically show **maps over the same area of the city**:
+Thanks to the combination of data in a single dataframe, the [Tableau workbook](jupytab-server/samples/air-flights/AirFlights.twb) can automatically show **maps over the same area of the city**:
 
 ![RealEstateCrime](jupytab-server/docs/resources/RealEstateCrime.png)
 
@@ -62,11 +62,11 @@ Python 3.6+ is currently required to run the Jupytab server.
 
 The notebook code itself requires Python 3.6+ too (but it shouldn't be difficult to adapt Jupytab for Python 2).
 
-Jupytab relies on the official [Jupyter Kernel Gateway](https://github.com/jupyter/kernel_gateway).
+Jupytab server relies on the official [Jupyter Kernel Gateway](https://github.com/jupyter/kernel_gateway).
 
 ## Automatic installation
 
-The jupytab server and its notebook library must both be installed.
+The Jupytab server and its notebook library must both be installed. 
 
 Jupytab server and its dependencies can easily be installed through pip:
 
@@ -230,7 +230,7 @@ Contributions are very welcome.  It can be
 
 - a new GitHub issue,
 - a feature request,
-- code (see the [Developement Guide](jupytab/docs/source/development-guide.md)),
+- code (see the [Developement Guide](jupytab-server/docs/source/development-guide.md)),
 - or simply feedback on this project.
 
 The main author of Jupytab is Brian Tribondeau, who can be reached at brian.tribondeau@cfm.fr.
