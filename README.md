@@ -39,7 +39,7 @@ We will display the position and altitude of all planes from the freely availabl
 ocean or uninhabited area!_)
 
 The [AirFlights notebook](jupytab-server/samples/air-flights/AirFlights.ipynb) uses the [Requests](https://2.python-requests.org/en/master/) library to **access the OpenSky HTTP Rest API** and then exposes multiple metrics in a dataframe.
-The provided [Tableau workbook](jupytab-server/samples/air-flights/AirFlights.twb) gives the result below:
+The provided [Tableau workbook](jupytab-server/samples/air-flights/AirFlights.twbx) gives the result below:
 
 ![AirFlights](jupytab-server/docs/resources/AirFlights.png)
 
@@ -49,7 +49,7 @@ The second example illustrates how simple it is to use Jupytab and **create a cu
 
 The [example notebook](jupytab-server/samples/real-estate_crime/RealEstateCrime.ipynb) exposes real estate and crime data for Sacramento, with a bit of [Pandas](http://pandas.pydata.org/) magic to combine several data sources. 
 
-Thanks to the combination of data in a single dataframe, the [Tableau workbook](jupytab-server/samples/air-flights/AirFlights.twb) can automatically show **maps over the same area of the city**:
+Thanks to the combination of data in a single dataframe, the [Tableau workbook](jupytab-server/samples/air-flights/AirFlights.twbx) can automatically show **maps over the same area of the city**:
 
 ![RealEstateCrime](jupytab-server/docs/resources/RealEstateCrime.png)
 
