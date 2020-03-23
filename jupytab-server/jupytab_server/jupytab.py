@@ -11,9 +11,9 @@ from configparser import ConfigParser, NoSectionError, NoOptionError
 from tornado.ioloop import IOLoop
 from tornado.web import StaticFileHandler, Application
 
-from jupytab_server.kernel_executor import KernelExecutor
 from jupytab_server.jupytab_api import RestartHandler, APIHandler, ReverseProxyHandler, root, \
     api_kernel, access_kernel, restart_kernel
+from jupytab_server.kernel_executor import KernelExecutor
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
 
@@ -27,14 +27,17 @@ def __extract_item(config, notebook_key, item_key, default=None):
         else:
             raise ValueError(f'Expecting {item_key} in section {notebook_key}')
 
+
 def config_listen_port(config):
     return config.getint('main', 'listen_port')
+
 
 def config_security_token(config):
     try:
         return config.get('main', 'security_token')
     except (NoSectionError, NoOptionError):
         return None
+
 
 def config_notebooks(config):
     notebooks = config.get('main', 'notebooks')
@@ -52,6 +55,7 @@ def config_notebooks(config):
                               'cwd': nb_cwd}
 
     return notebook_dict
+
 
 def config_ssl(config):
     try:
