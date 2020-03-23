@@ -1,5 +1,8 @@
 # Custom
 test_*.sh
+build.sh
+deploy.sh
+.pypirc
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

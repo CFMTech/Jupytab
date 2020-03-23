@@ -11,9 +11,9 @@ from configparser import ConfigParser, NoSectionError, NoOptionError
 from tornado.ioloop import IOLoop
 from tornado.web import StaticFileHandler, Application
 
-from jupytab_server.kernel_executor import KernelExecutor
 from jupytab_server.jupytab_api import RestartHandler, APIHandler, ReverseProxyHandler, root, \
     api_kernel, access_kernel, restart_kernel
+from jupytab_server.kernel_executor import KernelExecutor
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
 
@@ -28,20 +28,18 @@ def __extract_item(config, notebook_key, item_key, default=None):
             raise ValueError(f'Expecting {item_key} in section {notebook_key}')
 
 
-def parse_config(config_file):
-    if not os.path.isfile(config_file):
-        raise FileNotFoundError(f"missing configuration: {config_file}")
+def config_listen_port(config):
+    return config.getint('main', 'listen_port')
 
-    config = ConfigParser()
-    config.optionxform = str
-    config.read(config_file)
 
-    listen_port = config.getint('main', 'listen_port')
+def config_security_token(config):
     try:
-        security_token = config.get('main', 'security_token')
+        return config.get('main', 'security_token')
     except (NoSectionError, NoOptionError):
-        security_token = None
+        return None
 
+
+def config_notebooks(config):
     notebooks = config.get('main', 'notebooks')
     notebook_dict = {}
 
@@ -56,14 +54,59 @@ def parse_config(config_file):
                               'description': nb_description,
                               'cwd': nb_cwd}
 
+    return notebook_dict
+
+
+def config_ssl(config):
+    try:
+        ssl_enabled = config.getboolean('main', 'ssl_enabled')
+    except (NoSectionError, NoOptionError):
+        ssl_enabled = False
+
+    if ssl_enabled:
+        ssl_cert = config.get('main', 'ssl_cert')
+        ssl_key = config.get('main', 'ssl_key')
+
+        if ssl_enabled and not os.path.isfile(ssl_cert):
+            raise FileNotFoundError(f"SSL enabled but missing ssl_cert file: {ssl_cert}")
+        if ssl_enabled and not os.path.isfile(ssl_key):
+            raise FileNotFoundError(f"SSL enabled but missing ssl_key file: {ssl_key}")
+
+        return {
+            "certfile": ssl_cert,
+            "keyfile": ssl_key
+        }
+    else:
+        return None
+
+
+def parse_config(config_file):
+    if not os.path.isfile(config_file):
+        raise FileNotFoundError(f"missing configuration: {config_file}")
+
+    config = ConfigParser()
+    config.optionxform = str
+    config.read(config_file)
+
+    listen_port = config_listen_port(config)
+    security_token = config_security_token(config)
+    notebooks = config_notebooks(config)
+    ssl = config_ssl(config)
+
+    if not ssl:
+        print("SSL not enabled")
+    else:
+        print("SSL enabled")
+
     return {
         'listen_port': listen_port,
         'security_token': security_token,
-        'notebooks': notebook_dict
+        'notebooks': notebooks,
+        'ssl': ssl
     }
 
 
-def create_server_app(listen_port, security_token, notebooks):
+def create_server_app(listen_port, security_token, notebooks, ssl):
     notebook_store = {}
 
     for key, value in notebooks.items():
@@ -72,14 +115,17 @@ def create_server_app(listen_port, security_token, notebooks):
     for key, value in notebook_store.items():
         value.start()
 
+    protocol = "https" if ssl else "http"
+
     if security_token:
         token_digest = hashlib.sha224(security_token.encode('utf-8')).hexdigest()
         print(f"""Your token is {token_digest}
-        Please open : http://{socket.gethostname()}:{listen_port}/?security_token={token_digest}""")
+        Please open : {protocol}://{socket.gethostname()}:{listen_port}"""
+              f"/?security_token={token_digest}")
     else:
         token_digest = None
         print(f"""You have no defined token. Please note your process is not secured !
-        Please open : http://{socket.gethostname()}:{listen_port}""")
+        Please open : {protocol}://{socket.gethostname()}:{listen_port}""")
 
     server_app = Application([
         (r"/" + api_kernel, APIHandler,
@@ -105,7 +151,7 @@ def main(input_args=None):
 
     app = create_server_app(**params)
 
-    app.listen(params['listen_port'])
+    app.listen(params['listen_port'], ssl_options=params['ssl'])
 
     IOLoop.instance().start()
 
