@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: MIT
 
 import os
+import json
 from urllib.parse import urlunparse, urlencode
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
@@ -16,9 +17,31 @@ uri_security_token = 'security_token'
 
 
 def transform_url(protocol, host, path, query):
-    newpath = urlunparse((protocol, host, path, '', query, ''))
-    print(newpath)
-    return newpath
+    new_path = urlunparse((protocol, host, path, '', query, ''))
+    return new_path
+
+
+class EvaluateHandler(RequestHandler):
+    def initialize(self, notebook_store, security_token):
+        self.notebook_store = notebook_store
+        self.security_token = security_token
+
+    def set_default_headers(self):
+        self.set_header("Content-Type", 'application/json')
+
+    def post(self, *args, **kwargs):
+        query = json.loads(self.request.body)
+
+        # test connection
+        if query['script'] == 'return _arg1':
+            self.write(json.dumps(1))
+        else:
+            method_target = query['script'].split('.', 2)
+            print(method_target[0] + method_target[1])
+
+            kernel = self.notebook_store[method_target[0]]
+
+            self.write(json.dumps("OK"))
 
 
 class RestartHandler(RequestHandler):
