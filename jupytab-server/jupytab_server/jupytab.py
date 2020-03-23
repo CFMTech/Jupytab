@@ -120,8 +120,8 @@ def create_server_app(listen_port, security_token, notebooks, ssl):
     if security_token:
         token_digest = hashlib.sha224(security_token.encode('utf-8')).hexdigest()
         print(f"""Your token is {token_digest}
-        Please open : {protocol}://{socket.gethostname()}:{listen_port}""" \
-        f"/?security_token={token_digest}")
+        Please open : {protocol}://{socket.gethostname()}:{listen_port}"""
+              f"/?security_token={token_digest}")
     else:
         token_digest = None
         print(f"""You have no defined token. Please note your process is not secured !
