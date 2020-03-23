@@ -91,6 +91,9 @@ You need to create a `config.ini` file in order to tell Jupytab which notebooks 
 listen_port = 8765
 security_token = myToken
 notebooks = AirFlights|RealEstateCrime
+ssl_enabled = True
+ssl_key = /etc/pki/tls/certs/file.crt
+ssl_cert = /etc/pki/tls/private/file.key
 
 [AirFlights]
 name = Air Flights
@@ -112,6 +115,9 @@ There is only one mandatory section, `main`, which contains:
 and separated by the `|` (pipe) symbol. This must be a simple name compliant with [configparser](https://docs.python.org/3/library/configparser.html) sections.
 * `security_token` (optional): If provided, an encrypted security token will be required for all exchanges with
 Jupytab.
+* `ssl_enabled` (optional): Enable or disable SSL
+* `ssl_key` (mandatory if ssl_enabled is true): The path name of the server private key file
+* `ssl_cert` (mandatory if ssl_enabled is true): The path name of the server public key certificate file
  
 Additional sections contain information about each notebook to be run:
 
