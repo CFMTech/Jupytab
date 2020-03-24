@@ -109,7 +109,7 @@ class ReverseProxyHandler(RequestHandler):
         query_arguments.pop(uri_security_token, None)
 
         my_url = transform_url(
-            self.request.protocol,
+            'http',
             host,
             notebook_uri,
             urlencode(query_arguments, doseq=True))
