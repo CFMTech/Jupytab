@@ -1,5 +1,6 @@
 import json
 
+
 class Function:
     def __init__(self, alias, method):
         self.alias = alias
@@ -7,6 +8,7 @@ class Function:
 
     def __call__(self, *args, **kwargs):
         return self.method(*args)
+
 
 class Functions:
     """
@@ -31,21 +33,31 @@ class Functions:
         """
         jreq = json.loads(request)
 
-        if not 'data' in jreq['body']:
-            raise ValueError('Data field is expected to evaluate method')
+        if 'function' not in jreq['body']:
+            raise ValueError(f"<function> field is expected to evaluate method -> {jreq['body']}")
+
+        function_name = jreq['body']['function']
+
+        if 'data' not in jreq['body']:
+            raise ValueError(f"<data> field is expected to evaluate method -> {jreq['body']}")
 
         arg_dict = jreq['body']['data']
 
-        if not 'script' in jreq['body']:
-            raise ValueError('Script field is expected to evaluate method')
+        function = self[function_name.lower()]
+        ret_value = list()
 
-        function_name = jreq['body']['script']
+        arg_dict_values = [value for key, value in sorted(arg_dict.items())]
 
-        function = self[function_name]
+        for arg_values in zip(*arg_dict_values):
+            try:
+                invoke_result = function(*arg_values)
+                ret_value.append(invoke_result)
+            except Exception as e:
+                ret_value.append(str(e))
 
-        ret_value = function(arg_dict.values())
+        json_return = json.dumps(ret_value)
 
         if do_print:
-            print(ret_value)
+            print(json_return)
         else:
-            return ret_value
+            return json_return

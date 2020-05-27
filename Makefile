@@ -38,10 +38,10 @@ test:
 	$(MAKE) test_jupytab-server
 
 flake8_jupytab-server:
-	flake8 ./jupytab-server
+	(cd jupytab-server && flake8)
 
 flake8_jupytab:
-	flake8 ./jupytab
+	(cd jupytab && flake8)
 
 flake8:
 	$(MAKE) flake8_jupytab

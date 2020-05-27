@@ -1,1 +1,1 @@
-pandas<1
+pandas

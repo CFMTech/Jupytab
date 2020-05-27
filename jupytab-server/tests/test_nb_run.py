@@ -56,7 +56,7 @@ def build_uri(uri, params=None, protocol=PROTOCOL, host=HOST, port=PORT, token=S
     return f"{protocol}://{host}:{port}/{uri}?{token}&{params}"
 
 
-def retry(uri, delay_seconds=5, attempt_count=6):
+def rget(uri, delay_seconds=5, attempt_count=6):
     for attempt in range(attempt_count):
         try:
             response = requests.get(uri)
@@ -69,11 +69,27 @@ def retry(uri, delay_seconds=5, attempt_count=6):
 
         time.sleep(delay_seconds)
 
-    raise ConnectionError("Unable to retrieve datas from provided web service")
+    raise ConnectionError(f"Unable to retrieve GET datas from {uri}")
+
+
+def rpost(uri, body, delay_seconds=5, attempt_count=6):
+    for attempt in range(attempt_count):
+        try:
+            response = requests.post(uri, json=body)
+            if response.status_code == 200:
+                return response.json()
+        except requests.exceptions.RequestException as e:
+            print("RequestException", e)
+        except JSONDecodeError as e:
+            print("JSONDecodeError", e)
+
+        time.sleep(delay_seconds)
+
+    raise ConnectionError(f"Unable to retrieve POST datas from {uri}")
 
 
 def test_airflights_schema():
-    response = retry(build_uri("kernel/AirFlights/schema"))
+    response = rget(build_uri("kernel/AirFlights/schema"))
 
     json_result = response
 
@@ -86,7 +102,7 @@ def test_airflights_schema():
 
 
 def test_airflights_data():
-    response = retry(build_uri("kernel/AirFlights/data", "table_name=flights"))
+    response = rget(build_uri("kernel/AirFlights/data", "table_name=flights"))
 
     json_result = response
 
@@ -96,19 +112,8 @@ def test_airflights_data():
     assert 'baro_altitude' in json_result[0]
 
 
-def test_realestatecrime_data():
-    response = retry(build_uri("kernel/RealEstateCrime/data", "table_name=combined"))
-
-    json_result = response
-
-    assert len(json_result) > 0
-    assert 'address' in json_result[0]
-    assert 'beat' in json_result[0]
-    assert 'city' in json_result[0]
-
-
 def test_realestatecrime_schema():
-    response = retry(build_uri("kernel/RealEstateCrime/schema"))
+    response = rget(build_uri("kernel/RealEstateCrime/schema"))
 
     json_result = response
 
@@ -123,3 +128,48 @@ def test_realestatecrime_schema():
     assert len(json_result[2]['columns']) == 19
     assert json_result[2]['columns'][1]['id'] == 'baths'
     assert json_result[2]['columns'][1]['dataType'] == 'float'
+
+
+def test_realestatecrime_data():
+    response = rget(build_uri("kernel/RealEstateCrime/data", "table_name=combined"))
+
+    json_result = response
+
+    assert len(json_result) > 0
+    assert 'address' in json_result[0]
+    assert 'beat' in json_result[0]
+    assert 'city' in json_result[0]
+
+
+def test_sklearn_classifier_schema():
+    response = rget(build_uri("kernel/SKLearnClassifier/schema"))
+
+    json_result = response
+
+    assert len(json_result) == 3
+    assert json_result[1]['id'] == 'iris_target'
+
+
+def test_sklearn_classifier_data():
+    response = rget(build_uri("kernel/SKLearnClassifier/data", "table_name=iris"))
+
+    json_result = response
+
+    assert len(json_result) == 150
+    assert len(json_result[0]) == 5
+
+
+def test_sklearn_classifier_function():
+    predict_function = {
+        "script": "SKLearnClassifier.predict",
+        "data": {
+            "_arg1": [5.1, 5.8, 6.5],
+            "_arg2": [3.5, 2.6, 3],
+            "_arg3": [1.4, 4, 5.5],
+            "_arg4": [0.2, 1.2, 2.4],
+        }
+    }
+
+    response = rpost(build_uri("evaluate"), predict_function)
+
+    assert response == ["setosa", "versicolor", "virginica"]

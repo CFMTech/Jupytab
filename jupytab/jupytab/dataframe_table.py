@@ -85,7 +85,7 @@ class DataFrameTable(BaseTable):
 
     def _prepare_dataframe(self):
         # Remove index if it is not required
-        prep_df = self._dataframe \
+        prep_df = self._dataframe.reset_index() \
             if self._include_index \
             else self._dataframe.reset_index(drop=True)
         # Flatten multi-index
