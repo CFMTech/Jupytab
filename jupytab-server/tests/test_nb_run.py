@@ -87,17 +87,20 @@ def rpost(uri, body, delay_seconds=5, attempt_count=6):
 
     raise ConnectionError(f"Unable to retrieve POST datas from {uri}")
 
+
 def get_table_by_id(tables, id):
     for table in tables:
         if table['id'] == id:
             return table
     return None
 
+
 def get_column_by_id(columns, id):
     for column in columns:
         if column['id'] == id:
             return column
     return None
+
 
 def test_airflights_schema():
     response = rget(build_uri("kernel/AirFlights/schema"))
