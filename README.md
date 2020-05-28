@@ -177,6 +177,14 @@ tables['dynamic'] = jupytab.DataFrameTable('A dynamic table', refresh_method=dyn
 
 The tables listed in the Python variables `tables` now need to be explicitly marked for publication by Jupytab (both their schema and their contents). This is typically done at the very end of the notebook, with two special cells.
 
+Please note that you can also include the index in the dataframe output using `include_index=True`. Index is not included by default.
+
+```
+# Example 3: Static data with index included
+static_df = dynamic_df()
+tables['static'] = jupytab.DataFrameTable('A static table', dataframe=static_df, include_index=True)
+```
+
 ### Functions definition
 
 Following the same principle, you can also expose your own python functions to Tableau through two classes:
