@@ -48,14 +48,20 @@ class KernelExecutor:
 
         logpipe = log_pipe.LogPipe(logging.INFO)
 
-        self.__kernel_process = subprocess.Popen([
+        command_line = [
             u"jupyter",
             u"kernelgateway",
             u"--KernelGatewayApp.api='kernel_gateway.notebook_http'",
             u"--KernelGatewayApp.seed_uri={filename}".format(filename=self.notebook_file),
             u"--KernelGatewayApp.ip='{host}'".format(host=self.host),
             u"--KernelGatewayApp.port={port}".format(port=self.port)
-        ], env=my_env, stdout=logpipe, stderr=logpipe, cwd=self.cwd)
+        ]
+
+        self.__kernel_process = subprocess.Popen(command_line,
+                                                 env=my_env,
+                                                 stdout=logpipe,
+                                                 stderr=logpipe,
+                                                 cwd=self.cwd)
 
         if self.__kernel_callback:
             self.__kernel_callback.on_kernel_start(self)

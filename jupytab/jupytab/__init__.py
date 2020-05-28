@@ -3,5 +3,6 @@
 
 from .table import Tables
 from .dataframe_table import DataFrameTable
+from .function import Function, Functions
 
-__all__ = [Tables, DataFrameTable]
+__all__ = [Tables, DataFrameTable, Functions, Function]

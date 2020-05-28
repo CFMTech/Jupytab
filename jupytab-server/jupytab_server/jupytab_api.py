@@ -1,31 +1,109 @@
 # Copyright (c) 2019 Capital Fund Management
 # SPDX-License-Identifier: MIT
 
+import json
 import os
+import traceback
+from typing import Any
 from urllib.parse import urlunparse, urlencode
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
-from tornado.web import RequestHandler
+from tornado.web import RequestHandler, HTTPError
 
 root = os.path.dirname(__file__) + '/static'
 api_kernel = 'api'
 access_kernel = 'kernel'
 restart_kernel = 'api/restart'
-
 uri_security_token = 'security_token'
+evaluate_method = "evaluate"
 
 
-def transform_url(protocol, host, path, query):
-    newpath = urlunparse((protocol, host, path, '', query, ''))
-    print(newpath)
-    return newpath
+def transform_url(protocol, host, path, query=''):
+    new_path = urlunparse((protocol, host, path, '', query, ''))
+    return new_path
 
 
-class RestartHandler(RequestHandler):
+class BaseRequestHandler(RequestHandler):
+
     def initialize(self, notebook_store, security_token):
         self.notebook_store = notebook_store
         self.security_token = security_token
 
+    def set_default_headers(self) -> None:
+        self.set_header(name="Content-Type", value="application/json; charset=UTF-8")
+
+    def write_error(self, status_code: int, **kwargs: Any) -> None:
+        body = {
+            'method': self.request.method,
+            'uri': self.request.path,
+            'code': status_code,
+            'message': self._reason
+        }
+        if "exc_info" in kwargs:
+            if self.settings.get("serve_traceback"):
+                # in debug mode, send a traceback
+                trace = '\n'.join(traceback.format_exception(
+                    *kwargs['exc_info']
+                ))
+                body['trace'] = trace
+            if isinstance(kwargs['exc_info'][1], HTTPError):
+                body['message'] = kwargs['exc_info'][1].log_message
+        self.finish(body)
+
+    def on_chunk(self, chunk):
+        self.write(chunk)
+        self.flush()
+
+
+class EvaluateHandler(BaseRequestHandler):
+
+    async def post(self, *args, **kwargs):
+        query = json.loads(self.request.body)
+
+        # api_key = query['api_key']
+        script = query['script']
+        data = query['data']
+
+        if script == 'return _arg1' and data['_arg1'] == 1:
+            # Query sent by Tableau to test connection ...
+            # b'{"api_key":"","script":"return _arg1","data":{"_arg1":1}}'
+            self.write(json.dumps(1))
+        else:
+            script_params = query['script'].split('.')
+            if len(script_params) != 2:
+                raise HTTPError(log_message=f"<Notebook.function> expected instead of <{script}>")
+
+            notebook_target, method_target = script_params
+
+            if notebook_target not in self.notebook_store:
+                raise HTTPError(log_message=f"Unknown notebook ({notebook_target})")
+
+            kernel = self.notebook_store[notebook_target]
+            host = f'{kernel.host}:{kernel.port}'
+            my_url = transform_url('http', host, evaluate_method)
+
+            body = {
+                'function': method_target.lower(),
+                'data': data
+            }
+            json_body = json.dumps(body)
+
+            request = HTTPRequest(
+                url=my_url,
+                method='POST',
+                headers=self.request.headers,
+                follow_redirects=True,
+                body=json_body,
+                request_timeout=3600.0,
+                streaming_callback=self.on_chunk)
+
+            response = await AsyncHTTPClient().fetch(request)
+
+            self.set_status(response.code)
+            self.finish()
+
+
+class RestartHandler(BaseRequestHandler):
     def get(self, *args, **kwargs):
         if self.security_token and self.get_argument(uri_security_token) != self.security_token:
             raise ConnectionRefusedError("Invalid security token")
@@ -37,11 +115,7 @@ class RestartHandler(RequestHandler):
         notebook_kernel.restart()
 
 
-class APIHandler(RequestHandler):
-    def initialize(self, notebook_store, security_token):
-        self.notebook_store = notebook_store
-        self.security_token = security_token
-
+class APIHandler(BaseRequestHandler):
     def get(self, *args, **kwargs):
         if self.security_token and self.get_argument(uri_security_token) != self.security_token:
             raise ConnectionRefusedError("Invalid security token")
@@ -63,41 +137,13 @@ class APIHandler(RequestHandler):
         self.write(notebook_dict)
 
 
-class ReverseProxyHandler(RequestHandler):
-    def initialize(self, notebook_store, security_token):
-        self.notebook_store = notebook_store
-        self.security_token = security_token
+class ReverseProxyHandler(BaseRequestHandler):
 
-        AsyncHTTPClient.configure(None, max_body_size=4000000000)
-
-    def get(self, *args, **kwargs):
-        pass
-
-    def head(self, *args, **kwargs):
-        pass
-
-    def post(self, *args, **kwargs):
-        pass
-
-    def put(self, *args, **kwargs):
-        pass
-
-    def patch(self, *args, **kwargs):
-        pass
-
-    def options(self, *args, **kwargs):
-        pass
-
-    def delete(self, *args, **kwargs):
-        pass
-
-    async def prepare(self):
+    async def get(self, *args, **kwargs):
         if self.security_token and self.get_argument(uri_security_token) != self.security_token:
             raise ConnectionRefusedError("Invalid security token")
 
         notebook_path = self.request.path[len(access_kernel) + 2:].split('/', 2)
-
-        request_body = None if self.request.method.lower() == "get" else self.request.body
 
         notebook_id = notebook_path[0]
         notebook_uri = notebook_path[1] if len(notebook_path) > 1 else ''
@@ -116,22 +162,14 @@ class ReverseProxyHandler(RequestHandler):
 
         request = HTTPRequest(
             url=my_url,
-            method=self.request.method,
+            method='GET',
             headers=self.request.headers,
             follow_redirects=True,
-            body=request_body,
+            body=None,
             request_timeout=3600.0,
             streaming_callback=self.on_chunk)
 
         response = await AsyncHTTPClient().fetch(request)
 
         self.set_status(response.code)
-        self.write(response.body)
-
-        for k, v in response.headers.get_all():
-            if k != 'Content-Length':
-                self.add_header(k, v)
-
-    def on_chunk(self, chunk):
-        self.write(chunk)
-        self.flush()
+        self.finish()
