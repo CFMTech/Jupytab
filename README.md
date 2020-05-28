@@ -6,6 +6,8 @@
 
 Jupytab allows you to **explore in [Tableau](https://www.tableau.com/) data which is generated dynamically by a Jupyter Notebook**. You can thus create Tableau data sources in a very flexible way using all the power of Python. This is achieved by having Tableau access data through a **web server created by Jupytab**.
 
+**New** : Jupytab 0.9.7 now implements the [TabPy](https://github.com/tableau/TabPy) protocol, you can create your datasource and compute data on the fly from your notebook functions !
+
 Jupytab is built on **solid foundations**: Tableau's [Web Data Connector](https://tableau.github.io/webdataconnector/) and the [Jupyter Kernel Gateway](https://github.com/jupyter/kernel_gateway).
 
 ![Jupytab Logo](jupytab-medium.png)
@@ -18,6 +20,7 @@ Features:
 * Access **several notebooks** from Tableau through a **single entry point** (web server)
 * Manage your notebooks using a **web interface**
 * **Secure access** to your data
+* **Compute data on the fly** using the [TabPy](https://github.com/tableau/TabPy) protocol
 
 ## Examples
 
@@ -53,6 +56,17 @@ Thanks to the combination of data in a single dataframe, the [Tableau workbook](
 
 ![RealEstateCrime](jupytab-server/docs/resources/RealEstateCrime.png)
 
+### SkLearn Iris Predictor
+
+The third example illustrate how you can use Jupytab to create your datasource and interact in real-time with your datas. This an ideal companion for your machine learning projects, as it allows you to keep all your python code in the notebook while offering the ability for Tableau users to freely interact with your datas and understand the impact of parameters change.
+
+The [Iris Predictor notebook](jupytab-server/samples/sklearn-classifier/sklearn-classifier.ipynb) shows how you can combine data and code to create a all-in-one Tableau data source.
+
+![SKLearnClassifier](jupytab-server/docs/resources/SKLearnClassifier.png)
+
+The python code is now only in your notebook ! The Tableau calculation is straightforward and do not rely on Python code.
+
+![SKLearnClassifier-Calculation](jupytab-server/docs/resources/SKLearnClassifier-Calculation.png)
 
 # Installation
 
