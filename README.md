@@ -179,7 +179,7 @@ The tables listed in the Python variables `tables` now need to be explicitly mar
 
 Please note that you can also include the index in the dataframe output using `include_index=True`. Index is not included by default.
 
-```
+```python
 # Example 3: Static data with index included
 static_df = dynamic_df()
 tables['static'] = jupytab.DataFrameTable('A static table', dataframe=static_df, include_index=True)
@@ -196,6 +196,17 @@ def multiply(my_first_number, my_second_number):
 functions = jupytab.Functions() # Publication-ready functions contained by this notebook
 
 functions['multiplier'] = jupytab.Function('A multiplier function with two parameters', multiply)
+```
+
+The function is now available in Tableau using the following calculation:
+
+`SCRIPT_REAL("MyNotebook.multiplier", AVG([Value 1]), AVG([Value 2]))`
+
+You must refer to the notebook code you used in the config section, not the notebook name which is used only for display.
+
+```
+[main]
+notebooks = MyNotebook
 ```
 
 ### Expose tables schema
