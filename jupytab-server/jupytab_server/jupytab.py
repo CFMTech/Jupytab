@@ -11,10 +11,10 @@ from configparser import ConfigParser, NoSectionError, NoOptionError
 from tornado.ioloop import IOLoop
 from tornado.web import StaticFileHandler, Application
 
-from jupytab_server.structures import CaseInsensitiveDict
-from jupytab_server.kernel_executor import KernelExecutor
 from jupytab_server.jupytab_api import RestartHandler, APIHandler, EvaluateHandler, \
     ReverseProxyHandler, root, api_kernel, access_kernel, restart_kernel
+from jupytab_server.kernel_executor import KernelExecutor
+from jupytab_server.structures import CaseInsensitiveDict
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
 
