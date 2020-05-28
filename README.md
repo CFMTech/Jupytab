@@ -221,9 +221,9 @@ When Tableau needs to execute function, Jupytab executes the (mandatory) cell th
 functions.render_evaluate(REQUEST)
 ```
 
-(Note that `tables.render_evaluate(REQUEST)` will throw, as expected, `NameError: name 'REQUEST' is not defined` when executed in the notebook: `REQUEST` will only be defined when running with Jupytab, so the error is harmless.)
+(Note that `functions.render_evaluate(REQUEST)` will throw, as expected, `NameError: name 'REQUEST' is not defined` when executed in the notebook: `REQUEST` will only be defined when running with Jupytab, so the error is harmless.)
 
-## Launching the Jupytab dataframe server
+## Launching the Jupytab server
 
 Once you have created your notebooks, it should be a matter of second before they become acessible from Tableau.
 To start Jupytab, simply run the following command:
@@ -267,9 +267,9 @@ You can now use the Tableau Web Data Connector screen and access your data sourc
 
 Connecting Tableau to your notebooks to execute code on the fly using the [External Connection Service](https://help.tableau.com/current/pro/desktop/en-us/r_connection_manage.htm).
 
-The address to use is the host where your Jupytab is running. The port is the one you configured in the config.ini file.
+The address to use is the host where Jupytab is running. The port is the one you configured in the `config.ini` file.
 
-Please take care to select the TabPy / External API and not RServe.
+Please take care to select the **TabPy / External API** and not RServe.
 
 ## Troubleshooting
 
