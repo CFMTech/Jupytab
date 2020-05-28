@@ -87,16 +87,27 @@ def rpost(uri, body, delay_seconds=5, attempt_count=6):
 
     raise ConnectionError(f"Unable to retrieve POST datas from {uri}")
 
+def get_table_by_id(tables, id):
+    for table in tables:
+        if table['id'] == id:
+            return table
+    return None
+
+def get_column_by_id(columns, id):
+    for column in columns:
+        if column['id'] == id:
+            return column
+    return None
 
 def test_airflights_schema():
     response = rget(build_uri("kernel/AirFlights/schema"))
 
     json_result = response
 
-    assert json_result[0]['id'] == 'flights'
-    assert json_result[0]['columns'][0]['id'] == "callsign"
-    assert json_result[0]['columns'][8]['id'] == "velocity"
-    assert json_result[0]['columns'][8]['dataType'] == "float"
+    flight_table = get_table_by_id(json_result, 'flights')
+    assert get_column_by_id(flight_table['columns'], "callsign") is not None
+    velocity = get_column_by_id(flight_table['columns'], "velocity")
+    assert velocity['dataType'] == "float"
 
     assert len(json_result[0]['columns']) == 16
 
@@ -117,17 +128,19 @@ def test_realestatecrime_schema():
 
     json_result = response
 
-    assert json_result[0]['id'] == 'crime'
-    assert len(json_result[0]['columns']) == 9
-    assert json_result[0]['columns'][3]['id'] == 'beat'
-    assert json_result[1]['id'] == 'real_estate'
-    assert len(json_result[1]['columns']) == 12
-    assert json_result[1]['columns'][1]['id'] == 'city'
-    assert json_result[1]['columns'][1]['dataType'] == 'string'
-    assert json_result[2]['id'] == 'combined'
-    assert len(json_result[2]['columns']) == 19
-    assert json_result[2]['columns'][1]['id'] == 'baths'
-    assert json_result[2]['columns'][1]['dataType'] == 'float'
+    crime_table = get_table_by_id(json_result, 'crime')
+    assert len(crime_table['columns']) == 9
+    assert get_column_by_id(crime_table['columns'], 'beat') is not None
+
+    real_estate_table = get_table_by_id(json_result, 'real_estate')
+    assert len(real_estate_table['columns']) == 12
+    city = get_column_by_id(real_estate_table['columns'], 'city')
+    assert city['dataType'] == 'string'
+
+    combined = get_table_by_id(json_result, 'combined')
+    assert len(combined['columns']) == 19
+    baths = get_column_by_id(real_estate_table['columns'], 'baths')
+    assert baths['dataType'] == 'int'
 
 
 def test_realestatecrime_data():
@@ -147,7 +160,8 @@ def test_sklearn_classifier_schema():
     json_result = response
 
     assert len(json_result) == 3
-    assert json_result[1]['id'] == 'iris_target'
+
+    assert get_table_by_id(json_result, 'iris_target') is not None
 
 
 def test_sklearn_classifier_data():
@@ -155,7 +169,7 @@ def test_sklearn_classifier_data():
 
     json_result = response
 
-    assert len(json_result) == 150
+    assert len(json_result) > 100
     assert len(json_result[0]) == 5
 
 
