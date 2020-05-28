@@ -177,6 +177,19 @@ tables['dynamic'] = jupytab.DataFrameTable('A dynamic table', refresh_method=dyn
 
 The tables listed in the Python variables `tables` now need to be explicitly marked for publication by Jupytab (both their schema and their contents). This is typically done at the very end of the notebook, with two special cells.
 
+### Functions definition
+
+Following the same principle, you can also expose your own python functions to Tableau through two classes:
+
+```python
+def multiply(my_first_number, my_second_number):
+    return my_first_number * my_second_number
+    
+functions = jupytab.Functions() # Publication-ready functions contained by this notebook
+
+functions['multiplier'] = jupytab.Function('A multiplier function with two parameters', multiply)
+```
+
 ### Expose tables schema
 
 When Tableau needs to retrieve the schema of all available tables, Jupytab executes the (mandatory) cell that starts with `# GET /schema`:
@@ -199,6 +212,16 @@ tables.render_data(REQUEST)
 
 (Note that `tables.render_data(REQUEST)` will throw, as expected, `NameError: name 'REQUEST' is not defined` when executed in the notebook: `REQUEST` will only be defined when running with Jupytab, so the error is harmless.)
 
+### Expose functions data
+
+When Tableau needs to execute function, Jupytab executes the (mandatory) cell that starts with `# POST /evaluate`:
+
+```python
+# POST /evaluate
+functions.render_evaluate(REQUEST)
+```
+
+(Note that `tables.render_evaluate(REQUEST)` will throw, as expected, `NameError: name 'REQUEST' is not defined` when executed in the notebook: `REQUEST` will only be defined when running with Jupytab, so the error is harmless.)
 
 ## Launching the Jupytab dataframe server
 
@@ -232,12 +255,21 @@ INFO:[KernelGatewayApp] Jupyter Kernel Gateway at http://127.0.0.1:57149
 
 ## Connect Tableau to your notebooks
 
+### Web Data Connector for data sources
+
 Connecting Tableau to your notebooks is simply done by copying the URL provided by Jupytab upon startup to the Tableau Web Data Connector:
 
 ![TableauStart](jupytab-server/docs/resources/TableauStart.png)
 
 You can now use the Tableau Web Data Connector screen and access your data sources through the Jupytab interface.
 
+### TabPy Connector to execute functions
+
+Connecting Tableau to your notebooks to execute code on the fly using the [External Connection Service](https://help.tableau.com/current/pro/desktop/en-us/r_connection_manage.htm).
+
+The address to use is the host where your Jupytab is running. The port is the one you configured in the config.ini file.
+
+Please take care to select the TabPy / External API and not RServe.
 
 ## Troubleshooting
 
