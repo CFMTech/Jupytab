@@ -6,6 +6,8 @@
 
 Jupytab allows you to **explore in [Tableau](https://www.tableau.com/) data which is generated dynamically by a Jupyter Notebook**. You can thus create Tableau data sources in a very flexible way using all the power of Python. This is achieved by having Tableau access data through a **web server created by Jupytab**.
 
+**New** : Jupytab 0.9.7 now implements the [TabPy](https://github.com/tableau/TabPy) protocol, you can create your datasource and compute data on the fly from your notebook functions !
+
 Jupytab is built on **solid foundations**: Tableau's [Web Data Connector](https://tableau.github.io/webdataconnector/) and the [Jupyter Kernel Gateway](https://github.com/jupyter/kernel_gateway).
 
 ![Jupytab Logo](jupytab-medium.png)
@@ -18,6 +20,7 @@ Features:
 * Access **several notebooks** from Tableau through a **single entry point** (web server)
 * Manage your notebooks using a **web interface**
 * **Secure access** to your data
+* **Compute data on the fly** using the [TabPy](https://github.com/tableau/TabPy) protocol
 
 ## Examples
 
@@ -53,6 +56,17 @@ Thanks to the combination of data in a single dataframe, the [Tableau workbook](
 
 ![RealEstateCrime](jupytab-server/docs/resources/RealEstateCrime.png)
 
+### SkLearn Iris Predictor
+
+The third example illustrate how you can use Jupytab to create your datasource and interact in real-time with your datas. This an ideal companion for your machine learning projects, as it allows you to keep all your python code in the notebook while offering the ability for Tableau users to freely interact with your datas and understand the impact of parameters change.
+
+The [Iris Predictor notebook](jupytab-server/samples/sklearn-classifier/sklearn-classifier.ipynb) shows how you can combine data and code to create a all-in-one Tableau data source.
+
+![SKLearnClassifier](jupytab-server/docs/resources/SKLearnClassifier.png)
+
+The python code is now only in your notebook ! The Tableau calculation is straightforward and do not rely on Python code.
+
+![SKLearnClassifier-Calculation](jupytab-server/docs/resources/SKLearnClassifier-Calculation.png)
 
 # Installation
 
@@ -163,6 +177,27 @@ tables['dynamic'] = jupytab.DataFrameTable('A dynamic table', refresh_method=dyn
 
 The tables listed in the Python variables `tables` now need to be explicitly marked for publication by Jupytab (both their schema and their contents). This is typically done at the very end of the notebook, with two special cells.
 
+Please note that you can also include the index in the dataframe output using `include_index=True`. Index is not included by default.
+
+```
+# Example 3: Static data with index included
+static_df = dynamic_df()
+tables['static'] = jupytab.DataFrameTable('A static table', dataframe=static_df, include_index=True)
+```
+
+### Functions definition
+
+Following the same principle, you can also expose your own python functions to Tableau through two classes:
+
+```python
+def multiply(my_first_number, my_second_number):
+    return my_first_number * my_second_number
+    
+functions = jupytab.Functions() # Publication-ready functions contained by this notebook
+
+functions['multiplier'] = jupytab.Function('A multiplier function with two parameters', multiply)
+```
+
 ### Expose tables schema
 
 When Tableau needs to retrieve the schema of all available tables, Jupytab executes the (mandatory) cell that starts with `# GET /schema`:
@@ -185,8 +220,18 @@ tables.render_data(REQUEST)
 
 (Note that `tables.render_data(REQUEST)` will throw, as expected, `NameError: name 'REQUEST' is not defined` when executed in the notebook: `REQUEST` will only be defined when running with Jupytab, so the error is harmless.)
 
+### Expose functions data
 
-## Launching the Jupytab dataframe server
+When Tableau needs to execute function, Jupytab executes the (mandatory) cell that starts with `# POST /evaluate`:
+
+```python
+# POST /evaluate
+functions.render_evaluate(REQUEST)
+```
+
+(Note that `functions.render_evaluate(REQUEST)` will throw, as expected, `NameError: name 'REQUEST' is not defined` when executed in the notebook: `REQUEST` will only be defined when running with Jupytab, so the error is harmless.)
+
+## Launching the Jupytab server
 
 Once you have created your notebooks, it should be a matter of second before they become acessible from Tableau.
 To start Jupytab, simply run the following command:
@@ -218,12 +263,21 @@ INFO:[KernelGatewayApp] Jupyter Kernel Gateway at http://127.0.0.1:57149
 
 ## Connect Tableau to your notebooks
 
+### Web Data Connector for data sources
+
 Connecting Tableau to your notebooks is simply done by copying the URL provided by Jupytab upon startup to the Tableau Web Data Connector:
 
 ![TableauStart](jupytab-server/docs/resources/TableauStart.png)
 
 You can now use the Tableau Web Data Connector screen and access your data sources through the Jupytab interface.
 
+### TabPy Connector to execute functions
+
+Connecting Tableau to your notebooks to execute code on the fly using the [External Connection Service](https://help.tableau.com/current/pro/desktop/en-us/r_connection_manage.htm).
+
+The address to use is the host where Jupytab is running. The port is the one you configured in the `config.ini` file.
+
+Please take care to select the **TabPy / External API** and not RServe.
 
 ## Troubleshooting
 

@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.9.7 (2020-05-28)
+* #14 TabPy / External Service compatibility to add on the fly computation
+
 ## 0.9.5 (2020-03-24)
 * #24 Quick-fix for SSL support
 
