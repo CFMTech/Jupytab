@@ -1,3 +1,6 @@
+# The release process generate the __version__.py file. We do not want to have it versioned
+**/__version__.py
+
 # Custom
 test_*.sh
 build.sh
