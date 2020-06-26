@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.9.8 (2020-06-26)
+* #38 Rework version integration for packaging purpose
+
 ## 0.9.7 (2020-05-28)
 * #14 TabPy / External Service compatibility to add on the fly computation
 
