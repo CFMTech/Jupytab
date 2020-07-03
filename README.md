@@ -1,7 +1,9 @@
 # Jupytab
 
 [![CircleCI](https://circleci.com/gh/CFMTech/Jupytab.svg?style=svg)](https://circleci.com/gh/CFMTech/Jupytab)
-&nbsp;[![PyPI version](https://badge.fury.io/py/jupytab.svg)](https://badge.fury.io/py/jupytab)
+&nbsp;[![PyPI](https://badge.fury.io/py/jupytab.svg)](https://badge.fury.io/py/jupytab)
+&nbsp; [![Anaconda-Server Badge](https://anaconda.org/conda-forge/jupytab/badges/version.svg)](https://anaconda.org/conda-forge/jupytab)
+&nbsp;[![Anaconda-Server Badge](https://anaconda.org/conda-forge/jupytab/badges/platforms.svg)](https://anaconda.org/conda-forge/jupytab)
 &nbsp;[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Jupytab allows you to **explore in [Tableau](https://www.tableau.com/) data which is generated dynamically by a Jupyter Notebook**. You can thus create Tableau data sources in a very flexible way using all the power of Python. This is achieved by having Tableau access data through a **web server created by Jupytab**.
