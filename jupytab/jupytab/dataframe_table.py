@@ -1,6 +1,6 @@
 import re
 import unicodedata
-import pandas
+import pandas as pd
 from collections import Counter
 
 from .table import BaseTable
@@ -83,13 +83,33 @@ class DataFrameTable(BaseTable):
             'columns': columns
         }
 
-    def _prepare_dataframe(self):
+    def _prepare_dataframe(self, slice_from = None, slice_to = None):
+
+        # Guarantee valid range for slicing
+        if slice_from is None or slice_from < 0:
+            slice_from = 0
+
+        if slice_to is None:
+            slice_to = len(self._dataframe)
+
+        if slice_from > slice_to:
+            raise IndexError(f"From ({slice_from}) can not be greater than To ({slice_to})")
+
+        # Apply slicing to dataframe
+        if slice_from < len(self._dataframe):
+            # If slicing is in dataframe range
+            output_df = self._dataframe.iloc[slice_from: min(slice_to, len(self._dataframe))]
+        else:
+            # If slicing is outside dataframe range, return an empty dataframe
+            output_df = pd.DataFrame(columns=self._dataframe.columns)
+
         # Remove index if it is not required
-        prep_df = self._dataframe.reset_index() \
+        prep_df = output_df.reset_index() \
             if self._include_index \
-            else self._dataframe.reset_index(drop=True)
+            else output_df.reset_index(drop=True)
+
         # Flatten multi-index
-        if isinstance(prep_df.columns, pandas.MultiIndex):
+        if isinstance(prep_df.columns, pd.MultiIndex):
             prep_df.columns = [self._index_separator.join(map(str, col)).strip()
                                for col in prep_df.columns.values]
 
@@ -104,6 +124,21 @@ class DataFrameTable(BaseTable):
         if (not only_if_undefined or self._dataframe is None) and self._refresh_method is not None:
             self._dataframe = self._refresh_method()
 
-    def to_json(self):
-        return self._prepare_dataframe() \
-            .to_json(orient='records', date_format="iso", date_unit="s")
+    def to_output(self, print_format='json', slice_from=None, slice_to=None):
+        # Enforce print_format to be lower case
+        print_format = print_format.lower()
+        # Retrieve the DataFrame to be sent
+        output_df = self._prepare_dataframe(slice_from=slice_from, slice_to=slice_to)
+
+        # Directory of available formatter for output
+        output_formatter = {
+            'json': lambda df: df.to_json(orient='records', date_format="iso", date_unit="s")
+        }
+
+        if print_format in output_formatter.keys():
+            return output_formatter[print_format](output_df)
+        else:
+            raise NotImplementedError(
+                f"'{print_format}' format not supported."
+                f"Please use one of the following : {output_formatter.keys()}"
+            )

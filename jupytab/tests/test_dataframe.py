@@ -3,6 +3,8 @@
 
 import numpy as np
 import pandas as pd
+import json
+from timeit import default_timer as timer
 
 import jupytab
 
@@ -58,3 +60,40 @@ def test_data_schema():
     raw_schema = tables.render_schema(do_print=False)
 
     assert raw_output == raw_schema
+
+def test_large_data_content():
+    row_count = 5000000
+    col_count = 10
+
+    np.random.seed(0)
+
+    large_df = pd.DataFrame(np.random.randn(row_count, col_count))
+    tables = jupytab.Tables()
+    tables['large_df'] = \
+        jupytab.DataFrameTable('A very large Dataframe',
+                               dataframe=large_df)
+
+    request = json.dumps({
+        'args': {
+            'table_name': ['large_df'],
+            'format': ['json'],
+            'from': [5100],
+            'to': [5102]
+        }
+    })
+
+    start = timer()
+    raw_data = tables.render_data(request, do_print=False)
+    end = timer()
+
+    print(f"Elapsed time in second to retrieve one row in a large dataframe : {(end - start)} s")
+
+    assert (end - start) < 0.01
+
+    print(raw_data)
+
+    assert raw_data == '[{"0":0.2307805099,"1":0.7823326556,"2":0.9507107694,"3":1.4595805778,' \
+                       '"4":0.6798091111,"5":-0.8676077457,"6":0.3908489554,"7":1.0838125793,' \
+                       '"8":0.6227587338,"9":0.0919146565},{"0":0.6267312321,"1":0.7369835911,' \
+                       '"2":-0.4665488934,"3":1.5379716957,"4":-1.0313145219,"5":1.0398963231,' \
+                       '"6":0.8687854819,"7":0.2055855947,"8":-1.7716643336,"9":0.2428264886}]'
