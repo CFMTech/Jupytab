@@ -34,7 +34,7 @@ def read_version():
     version_master.resolve()
     version_4_release = version / 'jupytab_server' / '__version__.py'
     if version_4_release.exists():
-        v = version_4_release.read_text().strip().split('=')[1]
+        v = version_4_release.read_text().strip().split('=')[1].strip()
         # Let's remove quotes
         return v[1:len(v) - 1]
     elif version_master.exists():
