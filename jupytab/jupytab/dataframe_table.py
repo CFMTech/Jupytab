@@ -83,7 +83,7 @@ class DataFrameTable(BaseTable):
             'columns': columns
         }
 
-    def _prepare_dataframe(self, slice_from = None, slice_to = None):
+    def _prepare_dataframe(self, slice_from=None, slice_to=None):
 
         # Guarantee valid range for slicing
         if slice_from is None or slice_from < 0:

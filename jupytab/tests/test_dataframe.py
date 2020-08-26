@@ -61,8 +61,9 @@ def test_data_schema():
 
     assert raw_output == raw_schema
 
+
 def test_large_data_content():
-    row_count = 5000000
+    row_count = 1000000
     col_count = 10
 
     np.random.seed(0)
@@ -88,7 +89,7 @@ def test_large_data_content():
 
     print(f"Elapsed time in second to retrieve one row in a large dataframe : {(end - start)} s")
 
-    assert (end - start) < 0.01
+    assert (end - start) < 0.1
 
     print(raw_data)
 

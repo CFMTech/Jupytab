@@ -25,7 +25,7 @@ class MakeVersionCommand(distutils.cmd.Command):
         version = version_file.resolve().read_text().strip()
         version_py_file = pathlib.Path(__file__).parent / 'jupytab' / '__version__.py'
         with version_py_file.open('w') as stream:
-            stream.write(f'__version__="{version}"')
+            stream.write(f'__version__ = "{version}"\n')
 
 
 def read_version():
