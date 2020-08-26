@@ -7,7 +7,7 @@ import traceback
 from typing import Any
 from urllib.parse import urlunparse, urlencode
 
-from tornado.httpclient import AsyncHTTPClient, HTTPRequest
+from tornado.httpclient import AsyncHTTPClient, HTTPRequest, HTTPClientError
 from tornado.web import RequestHandler, HTTPError
 
 root = os.path.dirname(__file__) + '/static'
@@ -169,7 +169,11 @@ class ReverseProxyHandler(BaseRequestHandler):
             request_timeout=3600.0,
             streaming_callback=self.on_chunk)
 
-        response = await AsyncHTTPClient().fetch(request)
-
-        self.set_status(response.code)
-        self.finish()
+        try:
+            response = await AsyncHTTPClient().fetch(request)
+            self.set_status(response.code)
+            self.finish()
+        except HTTPClientError as e:
+            print(f"Error raised: Please visit {e.response.effective_url} from jupytab-server "
+                  f"machine to get more information about notebook execution error")
+            raise e

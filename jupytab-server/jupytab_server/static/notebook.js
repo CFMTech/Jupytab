@@ -88,21 +88,36 @@ $(function () {
 
     // Download the data
     myConnector.getData = function (table, doneCallback) {
-        var tableObj = JSON.parse(tableau.connectionData)
+        let tableObj = JSON.parse(tableau.connectionData)
 
-        $.getJSON("./kernel/" + tableObj.active_kernel_id + "/data?table_name=" + table.tableInfo.id + "&" + tableObj.token, function (resp) {
-            tableData = [];
-            for (var i = 0; i < resp.length; i++) {
-                row = {}
-                for (key in resp[i]) {
-                    row[key] = resp[i][key]
+        let batchSize = 10000
+
+        function load_data(dataChunkIdx) {
+            let fromIdx = (dataChunkIdx * batchSize)
+            let toIdx = ((dataChunkIdx + 1) * batchSize)
+
+            $.getJSON("./kernel/" + tableObj.active_kernel_id + "/data?table_name=" + table.tableInfo.id + "&" + tableObj.token
+            + "&from=" + fromIdx + "&to=" + toIdx + "&refresh=" + (dataChunkIdx == 0 ? "true" : "false")+ "&format=json", function (resp) {
+                if(resp.length == 0) {
+                    doneCallback();
+                } else {
+                    tableau.reportProgress("Getting rows " + fromIdx + " to " + (toIdx - 1));
+                    let tableData = [];
+                    for (let i = 0; i < resp.length; i++) {
+                        let row = {}
+                        for (let key in resp[i]) {
+                            row[key] = resp[i][key]
+                        }
+                        tableData.push(row);
+                    }
+
+                    table.appendRows(tableData);
+                    load_data(dataChunkIdx+1)
                 }
-                tableData.push(row);
-            }
+            });
+        }
 
-            table.appendRows(tableData);
-            doneCallback();
-        });
+        load_data(0);
     };
 
     tableau.registerConnector(myConnector);

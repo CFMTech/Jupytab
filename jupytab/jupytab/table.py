@@ -47,9 +47,9 @@ class BaseTable:
         """
         raise NotImplementedError
 
-    def to_json(self):
+    def to_output(self, print_format='json', slice_from=None, slice_to=None):
         """
-        Return the table contents as a JSON object.
+        Return the table contents as requested format, and selected slice
         """
         raise NotImplementedError
 
@@ -112,10 +112,24 @@ class Tables:
 
         do_print -- If true, do not return the JSON object but print it instead.
         """
-        table_name = json.loads(request)['args']['table_name'][0]
+
+        request_dict = json.loads(request)['args']
+
+        table_name = request_dict['table_name'][0]
+        data_format = request_dict['format'][0] if 'format' in request_dict else 'json'
+        slice_from = int(request_dict['from'][0]) if 'from' in request_dict else None
+        slice_to = int(request_dict['to'][0]) if 'to' in request_dict else None
+        refresh_required = request_dict['refresh'][0] == 'true'\
+            if 'refresh' in request_dict else True
+
         table = self[table_name]
-        table.refresh()
-        rendered_data = table.to_json()
+
+        if refresh_required:
+            table.refresh()
+
+        rendered_data = table.to_output(print_format=data_format,
+                                        slice_from=slice_from,
+                                        slice_to=slice_to)
         if do_print:
             print(rendered_data)
         else:

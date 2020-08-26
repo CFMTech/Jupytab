@@ -25,7 +25,7 @@ class MakeVersionCommand(distutils.cmd.Command):
         version = version_file.resolve().read_text().strip()
         version_py_file = pathlib.Path(__file__).parent / 'jupytab_server' / '__version__.py'
         with version_py_file.open('w') as stream:
-            stream.write(f'__version__="{version}"')
+            stream.write(f'__version__ = "{version}"\n')
 
 
 def read_version():
@@ -34,7 +34,7 @@ def read_version():
     version_master.resolve()
     version_4_release = version / 'jupytab_server' / '__version__.py'
     if version_4_release.exists():
-        v = version_4_release.read_text().strip().split('=')[1]
+        v = version_4_release.read_text().strip().split('=')[1].strip()
         # Let's remove quotes
         return v[1:len(v) - 1]
     elif version_master.exists():

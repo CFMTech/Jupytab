@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.9.10 - (2020-08-26)
+* #18 Use pagination to transfer data, in order to allow huge dataframe (>10M rows)
+* #41 Tableau stuck on Creating Extract (Loading data...) for slow retrieved tables
+
+## 0.9.9 - (2020-06-26)
+* Internal version for conda packaging (no code change)
+
 ## 0.9.8 (2020-06-26)
 * #38 Rework version integration for packaging purpose
 
