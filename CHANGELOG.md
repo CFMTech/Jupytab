@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.11 - (2020-09-11)
+* #45 Add jupytab.__version__ and jupytab_server.__version__ to diagnose version easily + display at start
+* #44 Remove tests packages from released artifact
+* #43 Fix TabPy protocol that changes with version 2020.1+ of Tableau
+
 ## 0.9.10 - (2020-08-26)
 * #18 Use pagination to transfer data, in order to allow huge dataframe (>10M rows)
 * #41 Tableau stuck on Creating Extract (Loading data...) for slow retrieved tables

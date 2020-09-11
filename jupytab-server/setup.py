@@ -84,7 +84,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
     ],
-    packages=find_packages(exclude=["*.tests", "*.tests.*"]),
+    packages=find_packages(exclude=["tests", "env", "docs", "build"]),
     python_requires='>=3.6',
     include_package_data=True,
     install_requires=["jupyter_kernel_gateway"],
