@@ -1,1 +1,2 @@
 recursive-include jupytab_server/static *
+recursive-exclude tests *

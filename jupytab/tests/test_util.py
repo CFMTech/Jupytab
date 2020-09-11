@@ -50,3 +50,7 @@ def test_clean_column_name():
 def test_replace_duplicated_column_name():
     assert jupytab.DataFrameTable.replace_duplicated_column_name(['A', 'A', 'a', 'z', 'a', 'Y']) \
            == ['A_1', 'A_2', 'a_1', 'z', 'a_2', 'Y']
+
+
+def test_version():
+    assert jupytab.__version__ is not None

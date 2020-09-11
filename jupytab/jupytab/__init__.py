@@ -4,5 +4,6 @@
 from .table import Tables
 from .dataframe_table import DataFrameTable
 from .function import Function, Functions
+from .__version__ import __version__
 
-__all__ = [Tables, DataFrameTable, Functions, Function]
+__all__ = [Tables, DataFrameTable, Functions, Function, __version__]

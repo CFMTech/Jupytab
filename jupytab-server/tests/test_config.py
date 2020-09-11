@@ -3,6 +3,7 @@ from configparser import ConfigParser
 
 import pytest
 
+import jupytab_server
 from jupytab_server.jupytab import config_ssl
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
@@ -23,3 +24,7 @@ def test_ssl():
     assert config_ssl(config('config/ssl_none.ini')) is None
     assert config_ssl(config('config/ssl_ok.ini')) == {'certfile': 'config/example.cert',
                                                        'keyfile': 'config/example.key'}
+
+
+def test_version():
+    assert jupytab_server.__version__ is not None

@@ -11,7 +11,8 @@ from configparser import ConfigParser, NoSectionError, NoOptionError
 from tornado.ioloop import IOLoop
 from tornado.web import StaticFileHandler, Application
 
-from jupytab_server.jupytab_api import RestartHandler, APIHandler, EvaluateHandler, \
+from jupytab_server import __version__
+from jupytab_server.jupytab_api import InfoHandler, RestartHandler, APIHandler, EvaluateHandler, \
     ReverseProxyHandler, root, api_kernel, access_kernel, restart_kernel
 from jupytab_server.kernel_executor import KernelExecutor
 from jupytab_server.structures import CaseInsensitiveDict
@@ -129,6 +130,8 @@ def create_server_app(listen_port, security_token, notebooks, ssl):
         Please open : {protocol}://{socket.gethostname()}:{listen_port}""")
 
     server_app = Application([
+        (r"/info", InfoHandler,
+         {'notebook_store': notebook_store, 'security_token': token_digest}),
         (r"/evaluate", EvaluateHandler,
          {'notebook_store': notebook_store, 'security_token': token_digest}),
         (r"/" + api_kernel, APIHandler,
@@ -145,9 +148,11 @@ def create_server_app(listen_port, security_token, notebooks, ssl):
 
 
 def main(input_args=None):
+    print(f"Starting Jupytab-Server {__version__}")
     parser = argparse.ArgumentParser(description='The Tableau gateway to notebooks')
     parser.add_argument("-c", "--config", dest='config_file', default='config.ini', type=str)
     parser.add_argument("-e", "--env", dest='environment', default='UNKNOWN', type=str)
+    parser.add_argument("-v", "--version", action='version', version=f"Jupytab {__version__}")
     args, unknown = parser.parse_known_args(args=input_args)
 
     params = parse_config(config_file=args.config_file)

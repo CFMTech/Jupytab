@@ -9,7 +9,10 @@ from urllib.parse import urlunparse, urlencode
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest, HTTPClientError
 from tornado.web import RequestHandler, HTTPError
+from jupytab_server import __version__
+import time
 
+application_start_time = time.time()
 root = os.path.dirname(__file__) + '/static'
 api_kernel = 'api'
 access_kernel = 'kernel'
@@ -55,8 +58,26 @@ class BaseRequestHandler(RequestHandler):
         self.flush()
 
 
-class EvaluateHandler(BaseRequestHandler):
+class InfoHandler(BaseRequestHandler):
+    def get(self, *args, **kwargs):
+        self.write(
+            {
+                "description": "Jupytab Server, an open source project "
+                               "available at https://github.com/CFMTech/Jupytab",
+                "creation_time": application_start_time,
+                "state_path": os.getcwd(),
+                "server_version":  __version__,
+                "name": "Jupytab Server",
+                "versions": {
+                    "v1": {
+                        "features": {}
+                    }
+                }
+            }
+        )
 
+
+class EvaluateHandler(BaseRequestHandler):
     async def post(self, *args, **kwargs):
         query = json.loads(self.request.body)
 
