@@ -28,7 +28,6 @@ Features:
 
 * **[Interactive simulation with Tableau and Jupytab](https://btribonde.medium.com/interactive-simulation-with-tableau-and-jupytab-c26adb1be564)** published on [Toward Datascience](https://towardsdatascience.com)
 * **[Optimise an equity portfolio in Tableau](https://devpost.com/software/portfolio-optimisation)** by [Anya Prosvetova](https://devpost.com/anyalitica). Submitted to [DataDev Hackathon 2021](https://datadev-hackathon.devpost.com)
-* Your own article ? Do not hesitate to send a link to [brian.tribondeau@cfm.fr]
 
 ## Examples
 
